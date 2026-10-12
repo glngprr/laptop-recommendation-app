@@ -1,0 +1,6 @@
+streamlit>=1.40
+pymysql>=1.1
+cryptography>=42
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3

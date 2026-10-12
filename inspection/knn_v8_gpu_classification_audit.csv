@@ -1,0 +1,79 @@
+graphics_normalized,gpu_class,gpu_class_basis,n_laptops,n_with_g3d,g3d_min,g3d_max,example_processors,validation_status
+NVIDIA GeForce RTX 4050 6GB,dedicated,rule_discrete_vendor_name,22,22,14201.0,14201.0,13th Gen Intel Core i7-13650HX; AMD Ryzen 5-8645HS; AMD Ryzen 7-7435HS,BELUM divalidasi manual
+NVIDIA GeForce RTX 5060 8GB,dedicated,rule_discrete_vendor_name,19,19,16758.0,16758.0,AMD Ryzen 7-250; AMD Ryzen 7-260; AMD Ryzen 7-8745HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 3050 6GB,dedicated,rule_discrete_vendor_name,15,15,10122.0,10122.0,AMD Ryzen 5-8645HS; AMD Ryzen 7-170; AMD Ryzen 7-7735HS,BELUM divalidasi manual
+NVIDIA GeForce RTX 4060 8GB,dedicated,rule_discrete_vendor_name,14,14,17326.0,17326.0,13th Gen Intel Core i7-13620H; AMD Ryzen 5-8645HS; AMD Ryzen 7-7435HS,BELUM divalidasi manual
+NVIDIA GeForce RTX 5050 8GB,dedicated,rule_discrete_vendor_name,12,12,14029.0,14029.0,AMD Ryzen 5-240; AMD Ryzen 7-250; AMD Ryzen 7-260,BELUM divalidasi manual
+NVIDIA GeForce RTX 5050 8GB GDDR7,dedicated,rule_discrete_vendor_name,11,11,14029.0,14029.0,13th Gen Intel Core i5-13450HX; AMD Ryzen 7-260; AMD Ryzen 9-270,BELUM divalidasi manual
+NVIDIA GeForce RTX 5060 8GB GDDR7,dedicated,rule_discrete_vendor_name,8,8,16758.0,16758.0,AMD Ryzen 7-260; AMD Ryzen 9-8940HX; AMD Ryzen 9-9955HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 5070 8GB,dedicated,rule_discrete_vendor_name,7,7,19118.0,19118.0,AMD Ryzen 7-260; AMD Ryzen 9-9955HX; AMD Ryzen 9-9955HX 3D,BELUM divalidasi manual
+NVIDIA GeForce RTX 5080 16GB GDDR7,dedicated,rule_discrete_vendor_name,5,5,26280.0,26280.0,Intel Core Ultra 9-275HX,BELUM divalidasi manual
+NVIDIA GeForce MX570A 2GB,dedicated,rule_discrete_vendor_name,4,4,6219.0,6219.0,Intel Core i5-1334U; Intel Core i7-1355U,"divalidasi sumber: Notebookcheck: MX570/MX570 A is a discrete mobile GPU (GA107, own 2 GB GDDR6) (https://www.notebookcheck.net/NVIDIA-GeForce-MX570-GPU-Benchmarks-and-Specs.586934.0.html)"
+NVIDIA GeForce RTX 4050 6GB GDDR6,dedicated,rule_discrete_vendor_name,4,4,14201.0,14201.0,AMD Ryzen 7-8845HS; Intel Core 5-210H; Intel Core 7-240H,BELUM divalidasi manual
+NVIDIA GeForce RTX 5070 Ti 12GB,dedicated,rule_discrete_vendor_name,4,4,22469.0,22469.0,Intel Core Ultra 9-275HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 4070 8GB,dedicated,rule_discrete_vendor_name,3,3,19462.0,19462.0,AMD Ryzen 7-8845HS; Intel Core i7-14650HX; Intel Core i9-14900HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 5070 Ti 12GB GDDR7,dedicated,rule_discrete_vendor_name,3,3,22469.0,22469.0,AMD Ryzen 9-8940HX; AMD Ryzen AI 9 HX-370; Intel Core Ultra 9-275HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 5080 16GB,dedicated,rule_discrete_vendor_name,3,3,26280.0,26280.0,AMD Ryzen AI 9 HX-375; Intel Core Ultra 9-275HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 3050 6GB GDDR6,dedicated,rule_discrete_vendor_name,2,2,10122.0,10122.0,Intel Core 5-210H,BELUM divalidasi manual
+NVIDIA GeForce RTX 3060 6GB,dedicated,rule_discrete_vendor_name,2,2,13095.0,13095.0,Intel Core i9-12900H,BELUM divalidasi manual
+NVIDIA GeForce RTX 4060 8GB GDDR6,dedicated,rule_discrete_vendor_name,2,2,17326.0,17326.0,AMD Ryzen AI 9 HX 370; AMD Ryzen AI 9-HX 370,BELUM divalidasi manual
+NVIDIA GeForce RTX 4070 8G,dedicated,rule_discrete_vendor_name,2,2,19462.0,19462.0,Intel Core i9-14900HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 4080 12GB,dedicated,rule_discrete_vendor_name,2,2,24748.0,24748.0,Intel Core i9-14900HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 4090 16GB,dedicated,rule_discrete_vendor_name,2,2,27031.0,27031.0,Intel Core i9-14900HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 5070 8GB GDDR7,dedicated,rule_discrete_vendor_name,2,2,19118.0,19118.0,AMD Ryzen 9-8940HX; Intel Core Ultra 9-285H,BELUM divalidasi manual
+NVIDIA GeForce RTX 5090 24GB,dedicated,rule_discrete_vendor_name,2,2,39005.0,39005.0,Intel Core Ultra 9-275HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 5090 24GB GDDR7,dedicated,rule_discrete_vendor_name,2,2,39005.0,39005.0,Intel Core Ultra 9-275HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 2050 4GB GDDR6,dedicated,rule_discrete_vendor_name,1,1,7728.0,7728.0,AMD Ryzen 7-7435HS,BELUM divalidasi manual
+NVIDIA GeForce RTX 3050 4GB,dedicated,rule_discrete_vendor_name,1,1,9506.0,9506.0,Intel Core 5-210H,BELUM divalidasi manual
+NVIDIA GeForce RTX 3050 4GB GDDR6,dedicated,rule_discrete_vendor_name,1,1,9506.0,9506.0,AMD Ryzen 7-170,BELUM divalidasi manual
+NVIDIA GeForce RTX 3050 Laptop GPU 4GB GDDR6,dedicated,rule_discrete_vendor_name,1,1,9506.0,9506.0,AMD Ryzen 7-170,BELUM divalidasi manual
+NVIDIA GeForce RTX 3050 Laptop GPU 6GB GDDR6,dedicated,rule_discrete_vendor_name,1,1,10121.0,10121.0,Intel Core 5-210H,BELUM divalidasi manual
+NVIDIA GeForce RTX 4050,dedicated,rule_discrete_vendor_name,1,1,14201.0,14201.0,Intel Core Ultra 9-285H,BELUM divalidasi manual
+"NVIDIA GeForce RTX 4050 6GB GDDR6,",dedicated,rule_discrete_vendor_name,1,1,14201.0,14201.0,AMD Ryzen 7-7445HS,BELUM divalidasi manual
+"NVIDIA GeForce RTX 4050 Laptop GPU, 6GB GDDR6",dedicated,rule_discrete_vendor_name,1,1,14201.0,14201.0,AMD Ryzen 7-170,BELUM divalidasi manual
+NVIDIA GeForce RTX 5050 8GB GDDR7 VRAM,dedicated,rule_discrete_vendor_name,1,1,14029.0,14029.0,AMD Ryzen 7-260,BELUM divalidasi manual
+NVIDIA GeForce RTX 5050 Laptop GPU 8GB GDDR7,dedicated,rule_discrete_vendor_name,1,1,14029.0,14029.0,Intel Core i7-14650HX,BELUM divalidasi manual
+"NVIDIA GeForce RTX 5050 Laptop, 8GB GDDR7",dedicated,rule_discrete_vendor_name,1,1,14029.0,14029.0,AMD Ryzen 9-8940HX,BELUM divalidasi manual
+NVIDIA GeForce RTX 5060 Laptop GPU 8GB GDDR7,dedicated,rule_discrete_vendor_name,1,1,16758.0,16758.0,Intel Core Ultra 9-285H,BELUM divalidasi manual
+"NVIDIA GeForce RTX 5060 Laptop GPU, , 8GB GDDR7",dedicated,rule_discrete_vendor_name,1,1,16758.0,16758.0,AMD Ryzen 9-8940HX,BELUM divalidasi manual
+"NVIDIA GeForce RTX 5060, 8GB GDDR7",dedicated,rule_discrete_vendor_name,1,1,16758.0,16758.0,Intel Core Ultra 9-275HX,BELUM divalidasi manual
+"NVIDIA GeForce RTX 5070 Ti Laptop GPU, 12GB GDDR7",dedicated,rule_discrete_vendor_name,1,1,22469.0,22469.0,Intel Core Ultra 9-285H,BELUM divalidasi manual
+"NVIDIA GeForce RTX 5070, 8GB GDDR7",dedicated,rule_discrete_vendor_name,1,1,19118.0,19118.0,Intel Core Ultra 9-275HX,BELUM divalidasi manual
+Intel Graphics,integrated,rule_intel_uhd_iris_adreno,116,116,3264.0,3264.0,Intel Core 3 N355; Intel Core 3-100U; Intel Core 5-120U,divalidasi sumber: PassMark CPU page (Core Ultra 5 125U): 'Intel Graphics' is the CPU's integrated graphics (https://www.cpubenchmark.net/compare/7383vs5840/AMD-Ryzen-AI-7-345-vs-Intel-Ultra-5-125U)
+AMD Radeon Graphics,integrated,rule_generic_radeon_with_ryzen_apu,85,33,1273.0,6739.0,AMD Athlon Silver 10; AMD Octa Core Ryzen 7-170; AMD Ryzen 3-30,divalidasi sumber (aturan pasangan): Notebookcheck: Ryzen 7 7735HS integrates Radeon 680M (https://www.notebookcheck.net/R7-7735HS-vs-R7-7730U_14952_14956.247596.0.html); PassMark lists Ryzen AI 7 345 'with Radeon 840M'; pair rule only (generic name + AMD Ryzen/Athlon CPU)
+Intel UHD Graphics,integrated,rule_intel_uhd_iris_adreno,65,65,1541.0,1541.0,Intel Celeron N4500; Intel Core 3 N355; Intel Core 3-100U,BELUM divalidasi manual
+Intel Arc Graphics,integrated,rule_generic_intel_arc_with_core_ultra,51,19,4514.0,5634.0,Intel Core Ultra 5-125H; Intel Core Ultra 5-125U; Intel Core Ultra 5-135H,"divalidasi sumber (aturan pasangan): Notebookcheck (Ultra 5 125H vs Ultra 7 155H): Intel Arc 7/8-core iGPU on Core Ultra H-series (https://www.notebookcheck.com/Ultra-5-125H-vs-Ultra-7-155H_16911_16906.247552.0.html); PassMark CPU page lists 'Intel Arc graphics' for Core Ultra 5 125H; pair rule only, rows whose product name mentions a discrete GPU stay unknown"
+(kosong),integrated,apple_soc,45,0,,,A18 Pro; M1; M2,BELUM divalidasi manual
+AMD Radeon 840M Graphics,integrated,rule_radeon_m_series_or_8060s,20,20,3667.0,3667.0,AMD Ryzen AI 5-340; AMD Ryzen AI 5-430; AMD Ryzen AI 7-345,"divalidasi sumber: PassMark: Ryzen AI 7 345 'with Radeon 840M' (integrated, part of the APU) (https://www.cpubenchmark.net/compare/7383vs5840/AMD-Ryzen-AI-7-345-vs-Intel-Ultra-5-125U)"
+Intel Iris Xe Graphics,integrated,rule_intel_uhd_iris_adreno,14,14,2587.0,2587.0,Intel Core i3-1215U; Intel Core i5-1135G7; Intel Core i5-1235U,divalidasi sumber: PassMark CPU page (i7-1165G7): Intel Iris Xe Graphics is integrated (https://www.cpubenchmark.net/compare/4104vs3814/Apple-M1-8-3200-MHz-vs-Intel-i7-1165G7)
+AMD Radeon 860M Graphics,integrated,rule_radeon_m_series_or_8060s,10,10,4873.0,4873.0,AMD Ryzen AI 7-350; AMD Ryzen AI 7-445,BELUM divalidasi manual
+Qualcomm Adreno GPU,integrated,rule_intel_uhd_iris_adreno,10,10,761.0,761.0,Snapdragon X Elite X1E-78-100; Snapdragon X X1 26 100,BELUM divalidasi manual
+AMD Radeon 610M Graphics,integrated,rule_radeon_m_series_or_8060s,7,7,1273.0,1273.0,AMD Ryzen 3-7320U; AMD Ryzen 5-40; AMD Ryzen 7-7730U,BELUM divalidasi manual
+Intel Arc Graphics 140V,integrated,rule_intel_arc_v_t_series,7,7,5142.0,5142.0,Intel Core Ultra 7-256V; Intel Core Ultra 7-258V,BELUM divalidasi manual
+Qualcomm Adreno,integrated,rule_intel_uhd_iris_adreno,5,0,,,Snapdragon X Elite X1E 78 100; Snapdragon X X1 26 100,BELUM divalidasi manual
+AMD Radeon 660M Graphics,integrated,rule_radeon_m_series_or_8060s,4,4,3126.0,3126.0,AMD Ryzen 5-7535HS,BELUM divalidasi manual
+AMD Radeon 780M Graphics,integrated,rule_radeon_m_series_or_8060s,4,4,6739.0,6739.0,AMD Ryzen 7-250; AMD Ryzen 7-8845HS,BELUM divalidasi manual
+Intel Arc Graphics 130V,integrated,rule_intel_arc_v_t_series,3,3,4514.0,4514.0,Intel Core Ultra 5-226V,BELUM divalidasi manual
+AMD Radeon 680M Graphics,integrated,rule_radeon_m_series_or_8060s,2,2,4016.0,4016.0,AMD Ryzen 7-7735HS,divalidasi sumber: Notebookcheck: Radeon 680M is the iGPU of Ryzen 7 7735HS (https://www.notebookcheck.net/R7-7735HS-vs-R7-7730U_14952_14956.247596.0.html)
+AMD Radeon 8060S,integrated,rule_radeon_m_series_or_8060s,2,2,18057.0,18057.0,AMD Ryzen AI MAX+ 395,divalidasi sumber: Notebookcheck: iGPU of Ryzen AI Max+ 395 (https://www.notebookcheck.net/AMD-Ryzen-AI-Max-395-Processor-Benchmarks-and-Specs.942323.0.html)
+AMD Radeon 820M Graphics,integrated,rule_radeon_m_series_or_8060s,2,2,2201.0,2201.0,AMD Ryzen AI 5-330,BELUM divalidasi manual
+AMD Radeon 890M Graphics,integrated,rule_radeon_m_series_or_8060s,2,2,8062.0,8062.0,AMD Ryzen AI 9 HX 370,BELUM divalidasi manual
+Intel Arc 140T Graphics,integrated,rule_intel_arc_v_t_series,2,2,5634.0,5634.0,Intel Core Ultra 7-255H; Intel Core Ultra 9-285H,BELUM divalidasi manual
+Intel Arc 140V Graphics,integrated,rule_intel_arc_v_t_series,2,2,5142.0,5142.0,Intel Core Ultra 7-258V; Intel Core Ultra 7-268V,BELUM divalidasi manual
+Intel Arc B390,integrated,pair_rule_validated_source,2,2,8981.0,8981.0,Intel Core Ultra X7-358H,divalidasi sumber: Intel ARK + Notebookcheck: iGPU of Core Ultra X7 358H (https://www.intel.com/content/www/us/en/products/sku/245527/)
+Intel Arc Graphics 140T,integrated,rule_intel_arc_v_t_series,2,2,5634.0,5634.0,Intel Core Ultra 7-255H,BELUM divalidasi manual
+Intel Iris Xe Eligible,integrated,rule_intel_uhd_iris_adreno,2,2,2587.0,2587.0,Intel Core i5-1334U; Intel Core i5-13500H,BELUM divalidasi manual
+"Qualcomm Adreno GPU, Qualcomm Hexagon NPU up to 45TOPS",integrated,rule_intel_uhd_iris_adreno,2,0,,,Snapdragon X X1 26 100,BELUM divalidasi manual
+AMD Radeon,integrated,rule_generic_radeon_with_ryzen_apu,1,1,5175.0,5175.0,AMD Ryzen 7-7735HS,divalidasi sumber (aturan pasangan): Notebookcheck: Ryzen 7 7735HS integrates Radeon 680M (https://www.notebookcheck.net/R7-7735HS-vs-R7-7730U_14952_14956.247596.0.html); PassMark lists Ryzen AI 7 345 'with Radeon 840M'; pair rule only (generic name + AMD Ryzen/Athlon CPU)
+AMD Radeon 660M,integrated,rule_radeon_m_series_or_8060s,1,1,3126.0,3126.0,AMD Ryzen 5-7535HS,BELUM divalidasi manual
+AMD Radeon 680M,integrated,rule_radeon_m_series_or_8060s,1,1,4016.0,4016.0,AMD Ryzen 7-7735HS,divalidasi sumber: Notebookcheck: Radeon 680M is the iGPU of Ryzen 7 7735HS (https://www.notebookcheck.net/R7-7735HS-vs-R7-7730U_14952_14956.247596.0.html)
+AMD Radeon 820M,integrated,rule_radeon_m_series_or_8060s,1,1,2201.0,2201.0,AMD Ryzen AI 5-330,BELUM divalidasi manual
+AMD Radeon 880M Graphics,integrated,rule_radeon_m_series_or_8060s,1,1,7600.0,7600.0,AMD Ryzen AI 9-365,BELUM divalidasi manual
+AMD Radeon Graphic 660M,integrated,rule_radeon_m_series_or_8060s,1,1,3126.0,3126.0,AMD Ryzen 5-7535HS,BELUM divalidasi manual
+AMD Radeon Graphic 680M,integrated,rule_radeon_m_series_or_8060s,1,1,4016.0,4016.0,AMD Ryzen 7-5825U,divalidasi sumber: Notebookcheck: Radeon 680M is the iGPU of Ryzen 7 7735HS (https://www.notebookcheck.net/R7-7735HS-vs-R7-7730U_14952_14956.247596.0.html)
+Intel Arc 130V GPU,integrated,rule_intel_arc_v_t_series,1,1,4514.0,4514.0,Intel Core Ultra 5-226V,BELUM divalidasi manual
+Intel Arc 140V GPU,integrated,rule_intel_arc_v_t_series,1,1,5142.0,5142.0,Intel Core Ultra 7-258V,BELUM divalidasi manual
+Qualcomm Adreno GPUs,integrated,rule_intel_uhd_iris_adreno,1,0,,,Snapdragon X Elite X1E 78 100,BELUM divalidasi manual
+Qualcomm Adreno Graphics,integrated,rule_intel_uhd_iris_adreno,1,0,,,Snapdragon X Plus X1P-42-100,BELUM divalidasi manual
+(kosong),unknown,no_graphics_field,2,0,,,Intel Core i3-1315U; Intel Core i5-1335U,BELUM divalidasi manual
+Intel Arc Graphics,unknown,conflict_name_vs_graphics_field,1,0,,,Intel Core Ultra 7-155H,BELUM divalidasi manual

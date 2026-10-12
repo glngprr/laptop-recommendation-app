@@ -1,0 +1,11 @@
+kind,level,percentile,value,n,population
+cpu,(populasi),,,636,semua laptop dengan skor CPU
+cpu,rendah,0.25,14823.0,636,semua laptop dengan skor CPU
+cpu,sedang,0.5,18871.0,636,semua laptop dengan skor CPU
+cpu,tinggi,0.75,24969.0,636,semua laptop dengan skor CPU
+cpu,sangat_tinggi,0.9,34222.0,636,semua laptop dengan skor CPU
+gpu,igpu_memadai,0.75,6186.5,19,"model GPU unik, kelas integrated, berskor G3D"
+gpu,dgpu_rendah,0.25,12351.75,16,"model GPU unik, kelas dedicated, berskor G3D"
+gpu,dgpu_sedang,0.5,17042.0,16,"model GPU unik, kelas dedicated, berskor G3D"
+gpu,dgpu_tinggi,0.75,23038.75,16,"model GPU unik, kelas dedicated, berskor G3D"
+gpu,dgpu_sangat_tinggi,0.9,26655.5,16,"model GPU unik, kelas dedicated, berskor G3D"
