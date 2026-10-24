@@ -256,5 +256,5 @@ laptop-recommendation-app/
 
 ## Data
 
-- **Data katalog** bersumber dari **Plaza IT** dan **skor benchmark** dari **PassMark** (CPU Mark dan G3D Mark); hak atas data tetap pada pemiliknya. Data dipakai di sini untuk tujuan penelitian dan akademik, dan merupakan potret katalog pada tanggal 5 Oktober 2026. Harga dan ketersediaan dapat telah berubah. Jika Anda pemilik data dan keberatan, hubungi pemilik repositori.
+- **Data katalog** bersumber dari **Plaza IT** dan **skor benchmark** dari **PassMark** (CPU Mark dan G3D Mark); hak atas data tetap pada pemiliknya. Data dipakai di sini untuk tujuan penelitian dan akademik, dan merupakan potret katalog pada tanggal 5 Oktober 2026. Harga dan ketersediaan dapat telah berubah. Jika Anda pemilik data dan keberatan, hubungi kami.
 - Selengkapnya dijelaskan di [docs/METODOLOGI.md](docs/METODOLOGI.md#2-data).
