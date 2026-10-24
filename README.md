@@ -147,6 +147,12 @@ GROUP BY processor_normalized, cpu_passmark_mark;
 streamlit run streamlit_app.py
 ```
 
+**atau:**
+
+```bash
+python -m streamlit run streamlit_app.py
+```
+
 Sidebar harus menampilkan **"MySQL: 648 laptop"**. Jika masih tertulis "CSV (cadangan)", keterangan di bawahnya menyebut penyebabnya; lihat [Pemecahan masalah](#pemecahan-masalah), lalu klik **Muat ulang katalog**.
 
 **Python di bawah 3.11:** `import_catalog.py` tidak dapat membaca `secrets.toml`. Gunakan variabel lingkungan sebagai gantinya (PowerShell):
