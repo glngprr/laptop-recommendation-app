@@ -120,8 +120,8 @@ Metodologi memisahkan lima komponen: filter wajib, pemetaan profil ke fitur, ran
 
 Kandidat yang tidak memenuhi syarat wajib **tidak pernah dikembalikan**:
 
-- harga kurang dari atau sama dengan budget;
-- RAM dan storage kurang dari atau sama dengan nilai yang dipilih pengguna (minimum);
+- harga kurang dari atau sama dengan budget (`price_numeric <= budget`);
+- RAM dan storage lebih besar dari atau sama dengan batas minimum yang dipilih pengguna (`ram_gb >= min_ram` dan `storage_gb >= min_storage`);
 - profil Gaming (dan opsi pengguna): `gpu_class` harus `dedicated`; laptop berkelas `unknown` tidak ikut karena tidak dapat dipastikan;
 - filter layar opsional: ukuran minimum, resolusi minimum, hanya OLED (bagian 4.7).
 
@@ -136,7 +136,14 @@ Profil diterjemahkan menjadi **target numerik eksplisit**. Target tidak berasal 
 | Desain dan video | RAM, storage, CPU, GPU | 16 GB | 512 GB | Tinggi | dedicated sedang | opsional |
 | Gaming | RAM, storage, CPU, GPU | 16 GB | 512 GB | Tinggi | dedicated sedang | wajib |
 
-- **Target RAM dan storage** = nilai yang lebih tinggi antara minimum pengguna dan rekomendasi profil. Minimum pengguna tetap menjadi filter wajib; rekomendasi profil adalah target lunak.
+- **Pemisahan Batas Minimum dan Target Preferensi (Perbaikan Logika):**
+  - **Batas minimum (`min_ram`, `min_storage`)** berfungsi murni sebagai *hard filter* pemotong pool kandidat.
+  - **Target preferensi (`target_ram`, `target_storage`)** menjadi titik koordinat target $t$ pada ruang KNN.
+  - Nilai rekomendasi profil hanya digunakan untuk menginisialisasi nilai awal formulir. Pengguna dapat mengubah target RAM atau storage secara mandiri (misalnya memilih target RAM 8 GB pada profil Programming) selama memenuhi validasi `target >= minimum`.
+  - Sistem tidak lagi memaksakan `max(min_ram, profile_rec)` yang menimpa preferensi pengguna secara diam-diam. Jika target eksplisit diberikan, target tersebut yang menjadi acuan:
+    $$t_{\text{RAM}} = s.\text{target\_ram} \quad \text{dan} \quad t_{\text{Storage}} = s.\text{target\_storage}$$
+    (Bila parameter target kosong, sistem menggunakan *fallback* kompatibilitas `max(s.min_ram, p["ram_rec"])`).
+  - *Catatan:* Perubahan ini merupakan perbaikan konsistensi logika pemodelan preferensi pengguna, bukan klaim peningkatan akurasi empiris. Laptop dengan target RAM 8 GB berjarak 0 pada dimensi RAM, namun peringkat akhir tetap ditentukan secara multivariat bersama fitur CPU dan lainnya.
 - **Target CPU** = persentil skor PassMark seluruh katalog yang punya skor CPU (636 laptop), bukan pool terfilter:
 
 | Level | Persentil | Skor |
