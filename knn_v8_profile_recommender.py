@@ -386,6 +386,8 @@ class Scenario:
     min_screen_inch: float = 0.0     # 0 = no screen-size filter
     min_resolution: str = ""         # "" = no resolution filter; else a key of RES_ORDER
     oled_only: bool = False          # only laptops whose name says OLED
+    target_ram: Optional[float] = None
+    target_storage: Optional[float] = None
 
 
 def validate_scenario(s: Scenario) -> None:
@@ -395,6 +397,16 @@ def validate_scenario(s: Scenario) -> None:
         raise ValueError("Budget harus lebih besar dari 0.")
     if s.min_ram < 0 or s.min_storage < 0:
         raise ValueError("RAM dan storage minimum tidak boleh negatif.")
+    if s.target_ram is not None:
+        if s.target_ram < 0:
+            raise ValueError("Target RAM tidak boleh negatif.")
+        if s.target_ram < s.min_ram:
+            raise ValueError(f"Target RAM ({s.target_ram:g} GB) tidak boleh lebih kecil dari RAM minimum ({s.min_ram:g} GB).")
+    if s.target_storage is not None:
+        if s.target_storage < 0:
+            raise ValueError("Target storage tidak boleh negatif.")
+        if s.target_storage < s.min_storage:
+            raise ValueError(f"Target storage ({s.target_storage:g} GB) tidak boleh lebih kecil dari storage minimum ({s.min_storage:g} GB).")
     if s.cpu_level is not None and s.cpu_level not in CPU_LEVELS:
         raise ValueError(f"Level CPU tidak dikenal: {s.cpu_level}. Pilihan: {CPU_LEVEL_ORDER}")
     if s.gpu_level is not None and s.gpu_level not in GPU_LEVELS:
@@ -492,9 +504,11 @@ def run_scenario(df: pd.DataFrame, ref: dict, s: Scenario) -> dict:
     require_dedicated = p["require_dedicated"] if s.require_dedicated is None else s.require_dedicated
 
     features = [COL_RAM, COL_STORAGE, COL_CPU] + ([COL_GPU] if use_gpu else [])
+    target_ram = float(s.target_ram) if s.target_ram is not None else float(max(s.min_ram, p["ram_rec"]))
+    target_storage = float(s.target_storage) if s.target_storage is not None else float(max(s.min_storage, p["storage_rec"]))
     targets = {
-        COL_RAM: float(max(s.min_ram, p["ram_rec"])),
-        COL_STORAGE: float(max(s.min_storage, p["storage_rec"])),
+        COL_RAM: target_ram,
+        COL_STORAGE: target_storage,
         COL_CPU: ref["cpu"][cpu_level],
     }
     if use_gpu:
@@ -1022,6 +1036,8 @@ def parse_args(argv=None):
     ap.add_argument("--require-dedicated", action=argparse.BooleanOptionalAction, default=None)
     ap.add_argument("--lambda-surplus", type=float, default=DEFAULT_LAMBDA)
     ap.add_argument("--top-n", type=int, default=DEFAULT_TOP_N)
+    ap.add_argument("--target-ram", type=float, default=None, help="target RAM acuan KNN (GB)")
+    ap.add_argument("--target-storage", type=float, default=None, help="target storage acuan KNN (GB)")
     a = ap.parse_args(argv)
     if a.profile:
         for flag, val in [("--budget", a.budget), ("--min-ram", a.min_ram), ("--min-storage", a.min_storage)]:
@@ -1043,7 +1059,8 @@ def main(argv=None) -> int:
         if args.profile:
             scenarios = [Scenario("custom_" + args.profile, args.profile, args.budget, args.min_ram,
                                   args.min_storage, args.cpu_level, args.gpu_level,
-                                  args.require_dedicated, args.lambda_surplus, args.top_n)]
+                                  args.require_dedicated, args.lambda_surplus, args.top_n,
+                                  target_ram=args.target_ram, target_storage=args.target_storage)]
             prefix, title = "knn_v8_custom", "KNN v8 - Query Kustom"
         else:
             scenarios = SUITE

@@ -48,7 +48,9 @@ def profile_defaults() -> dict:
     out = {}
     for key, p in v8.PROFILES.items():
         out[key] = dict(
-            label=p["label"], ram=p["ram_rec"], storage=p["storage_rec"], cpu=p["cpu_level"],
+            label=p["label"], ram=p["ram_rec"], target_ram=p["ram_rec"], min_ram=p["ram_rec"],
+            storage=p["storage_rec"], target_storage=p["storage_rec"], min_storage=p["storage_rec"],
+            cpu=p["cpu_level"],
             gpu=p["gpu_level"] if p["gpu_in_features"] else "none",
             gpu_required=bool(p["gpu_in_features"]), dedicated=bool(p["require_dedicated"]),
             dedicated_locked=(key == "gaming"))
@@ -94,8 +96,35 @@ def make_scenario(params: dict) -> "v8.Scenario":
             errors.append(f"{label} harus salah satu dari {choices}.")
         return val
 
-    min_ram = pick("min_ram", "RAM minimum", RAM_CHOICES, d["ram"])
-    min_storage = pick("min_storage", "Storage minimum", STORAGE_CHOICES, d["storage"])
+    target_ram_raw = params.get("target_ram")
+    min_ram_raw = params.get("min_ram")
+    if target_ram_raw is not None:
+        target_ram = pick("target_ram", "Target RAM", RAM_CHOICES, d["ram"])
+    else:
+        target_ram = None
+
+    if min_ram_raw is not None:
+        min_ram = pick("min_ram", "RAM minimum", RAM_CHOICES, target_ram if target_ram is not None else d["ram"])
+    else:
+        min_ram = target_ram if target_ram is not None else d["ram"]
+
+    if target_ram is not None and min_ram > target_ram:
+        errors.append(f"Target RAM ({target_ram} GB) tidak boleh lebih kecil dari RAM minimum ({min_ram} GB).")
+
+    target_storage_raw = params.get("target_storage")
+    min_storage_raw = params.get("min_storage")
+    if target_storage_raw is not None:
+        target_storage = pick("target_storage", "Target storage", STORAGE_CHOICES, d["storage"])
+    else:
+        target_storage = None
+
+    if min_storage_raw is not None:
+        min_storage = pick("min_storage", "Storage minimum", STORAGE_CHOICES, target_storage if target_storage is not None else d["storage"])
+    else:
+        min_storage = target_storage if target_storage is not None else d["storage"]
+
+    if target_storage is not None and min_storage > target_storage:
+        errors.append(f"Target storage ({target_storage} GB) tidak boleh lebih kecil dari storage minimum ({min_storage} GB).")
 
     cpu_level = str(params.get("cpu_level") or d["cpu"])
     if cpu_level not in v8.CPU_LEVELS:
@@ -138,7 +167,9 @@ def make_scenario(params: dict) -> "v8.Scenario":
         raise ValueError(" ".join(errors))
     return v8.Scenario("web", profile, budget, float(min_ram), float(min_storage), cpu_level,
                        gpu_level, require_dedicated, v8.DEFAULT_LAMBDA, TOP_N,
-                       min_screen_inch=min_inch, min_resolution=min_res, oled_only=oled_only)
+                       min_screen_inch=min_inch, min_resolution=min_res, oled_only=oled_only,
+                       target_ram=float(target_ram) if target_ram is not None else None,
+                       target_storage=float(target_storage) if target_storage is not None else None)
 
 
 def screen_text(x) -> str:
