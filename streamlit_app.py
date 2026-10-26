@@ -402,7 +402,7 @@ def render_result(stored: dict):
                                f"({S.fmt_idr(r['variant_price_min'])} - {S.fmt_idr(r['variant_price_max'])}).")
 
                 # 6. Jarak KNN dengan penjelasan singkat
-                st.caption(f"Jarak KNN: {r['distance']:.4f} (ukuran kedekatan multivariat terhadap target preferensi)")
+                st.caption(f"Jarak KNN: {r['distance']:.4f} (ukuran kedekatan terhadap target preferensi)")
 
                 # 7. Tombol ke Plaza IT dan mencari laptop serupa
                 btn_col1, btn_col2 = st.columns([1, 1])
@@ -441,10 +441,10 @@ def render_result(stored: dict):
             "laptop yang tidak memenuhinya tidak akan ditampilkan.\n"
             "- **Target RAM, Target Storage, CPU, dan GPU** adalah acuan ranking KNN. Laptop dengan spesifikasi "
             "paling mendekati target preferensi akan mendapatkan peringkat teratas.\n"
-            "- Algoritma menggunakan **jarak Euclidean asimetris**: surplus spesifikasi di atas target diberi "
-            "penalti lebih ringan daripada kekurangan (*shortfall*).\n"
-            "- Harga bukan variabel penentu jarak ranking; harga murni batas kemampuan beli dan pemutus seri "
-            "jika dua laptop memiliki jarak fitur identik."
+            "- Algoritma menggunakan **jarak Euclidean asimetris**: sistem memberi penalti lebih ringan ketika spesifikasi "
+            "melebihi target dibandingkan ketika spesifikasi berada di bawah target (*shortfall*).\n"
+            "- Harga bukan variabel penentu jarak ranking; harga digunakan untuk menyaring laptop sesuai anggaran dan "
+            "menentukan urutan jika dua laptop memiliki jarak fitur yang sama, bukan untuk menghitung kedekatan spesifikasi."
         )
 
 
@@ -505,7 +505,7 @@ with st.expander("Informasi penelitian dan metodologi"):
     st.markdown(
         "Website ini membantu pengguna menemukan laptop yang sesuai dengan preferensi kebutuhan dan anggaran. "
         "Sistem menerapkan pemisahan tegas antara **Batas Minimum (Hard Filter)** untuk eliminasi laptop yang tidak memenuhi syarat, "
-        "dan **Target Preferensi** sebagai magnet acuan perhitungan jarak KNN."
+        "dan **Target Preferensi** sebagai acuan perhitungan jarak KNN."
     )
 
 tab_rec, tab_eval = st.tabs(["Rekomendasi", "Evaluasi Pengguna"])
