@@ -27,12 +27,12 @@ Tujuan sistem adalah merekomendasikan laptop berdasarkan **kebutuhan pengguna** 
 
 Versi sebelumnya (v7) membentuk query KNN dari **median CPU dan GPU kandidat yang sudah lolos filter**. Audit terhadap v7 menunjukkan:
 
-| Temuan | Angka |
-|---|---|
-| Kandidat setelah filter / yang dapat diranking | 127 / 88 |
-| Query CPU PassMark dan G3D Mark (median kandidat) | 14.877 dan 3.264 |
-| Laptop berjarak persis 0 dari query | 14, dari hanya 32 vektor fitur unik |
-| Akibat | Lima rekomendasi hanyalah lima dari 14 hasil seri, terurut menurut urutan baris berkas (arbitrer) |
+| Temuan                                            | Angka                                                                                             |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Kandidat setelah filter / yang dapat diranking    | 127 / 88                                                                                          |
+| Query CPU PassMark dan G3D Mark (median kandidat) | 14.877 dan 3.264                                                                                  |
+| Laptop berjarak persis 0 dari query               | 14, dari hanya 32 vektor fitur unik                                                               |
+| Akibat                                            | Lima rekomendasi hanyalah lima dari 14 hasil seri, terurut menurut urutan baris berkas (arbitrer) |
 
 Penyebab dan masalah terkait:
 
@@ -51,18 +51,18 @@ Penyebab dan masalah terkait:
 
 Katalog laptop **Plaza IT**, 648 laptop, 21 kolom (nama produk, harga, RAM, storage, prosesor dan grafis beserta bentuk normalisasinya, skor PassMark CPU dan G3D, status pemetaan benchmark, URL, tanggal benchmark). Skor benchmark berasal dari **PassMark**. Tanggal benchmark pada seluruh baris adalah 2026-10-05.
 
-| Atribut | Nilai |
-|---|---|
-| Harga | minimum Rp4.999.000; median Rp16.899.000; maksimum Rp89.100.000 |
-| RAM | 16 GB (339 laptop), 8 GB (161), 32 GB (111) |
-| Storage | 512 GB (422), 1 TB (170), 256 GB (33) |
-| Skor CPU unik / G3D unik | 120 / 36 |
+| Atribut                  | Nilai                                                           |
+| ------------------------ | --------------------------------------------------------------- |
+| Harga                    | minimum Rp4.999.000; median Rp16.899.000; maksimum Rp89.100.000 |
+| RAM                      | 16 GB (339 laptop), 8 GB (161), 32 GB (111)                     |
+| Storage                  | 512 GB (422), 1 TB (170), 256 GB (33)                           |
+| Skor CPU unik / G3D unik | 120 / 36                                                        |
 
 ### 2.2 Benchmark yang hilang
 
-| Skor | Status pemetaan | Jumlah |
-|---|---|---|
-| CPU PassMark | MATCHED / UNMAPPED / AMBIGUOUS | 636 / 7 / 5 |
+| Skor         | Status pemetaan                   | Jumlah        |
+| ------------ | --------------------------------- | ------------- |
+| CPU PassMark | MATCHED / UNMAPPED / AMBIGUOUS    | 636 / 7 / 5   |
 | GPU G3D Mark | MATCHED / AMBIGUOUS / NO_GPU_DATA | 507 / 94 / 47 |
 
 - **12 laptop tanpa skor CPU** seluruhnya Apple M4 Pro (4), M4 Max (3), dan M5 Pro (5). Harganya Rp33,8 juta ke atas.
@@ -82,13 +82,13 @@ Dampak pada v8: level CPU Rendah bergeser dari 14.643 ke 14.823 dan Sedang dari 
 
 Dataset tidak memiliki kolom layar; informasi hanya tertulis dalam nama produk. Hasil penguraian:
 
-| Informasi | Terbaca |
-|---|---|
-| Ukuran layar | 645 dari 648 laptop |
-| Kelas resolusi | 561 dari 648 (FHD 226, WUXGA 200, QHD/2K 96, 2.5K sampai 3K 35, HD 3, 4K 1); 87 tidak terbaca, termasuk 45 MacBook |
-| OLED | 105 laptop (bukti positif saja: tidak tertulis OLED belum berarti bukan OLED) |
-| IPS / touchscreen | 79 / 105 |
-| Gamut warna (sRGB, DCI-P3) | tidak ada |
+| Informasi                  | Terbaca                                                                                                            |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Ukuran layar               | 645 dari 648 laptop                                                                                                |
+| Kelas resolusi             | 561 dari 648 (FHD 226, WUXGA 200, QHD/2K 96, 2.5K sampai 3K 35, HD 3, 4K 1); 87 tidak terbaca, termasuk 45 MacBook |
+| OLED                       | 105 laptop (bukti positif saja: tidak tertulis OLED belum berarti bukan OLED)                                      |
+| IPS / touchscreen          | 79 / 105                                                                                                           |
+| Gamut warna (sRGB, DCI-P3) | tidak ada                                                                                                          |
 
 ## 3. Arsitektur sistem
 
@@ -103,12 +103,12 @@ flowchart LR
     G --> H[(MySQL sesi dan penilaian)]
 ```
 
-| Lapisan | Berkas | Tugas |
-|---|---|---|
-| Data | `dataset/*.csv`, `schema.sql`, `import_catalog.py`, `db.py` | Katalog dan penyimpanan sesi serta penilaian. Benchmark hilang disimpan `NULL`. |
-| Inti metode | `knn_v8_profile_recommender.py` | Persiapan data, klasifikasi jenis GPU, parsing layar, filter wajib, target profil, KNN, laptop serupa, laporan evaluasi. |
-| Layanan | `service.py` | Validasi input, penyusunan hasil siap tampil, penjelasan rekomendasi. Tanpa dependensi Streamlit atau MySQL. |
-| Antarmuka | `streamlit_app.py` | Formulir, hasil, penilaian bintang, tab evaluasi. |
+| Lapisan     | Berkas                                                      | Tugas                                                                                                                    |
+| ----------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Data        | `dataset/*.csv`, `schema.sql`, `import_catalog.py`, `db.py` | Katalog dan penyimpanan sesi serta penilaian. Benchmark hilang disimpan `NULL`.                                          |
+| Inti metode | `knn_v8_profile_recommender.py`                             | Persiapan data, klasifikasi jenis GPU, parsing layar, filter wajib, target profil, KNN, laptop serupa, laporan evaluasi. |
+| Layanan     | `service.py`                                                | Validasi input, penyusunan hasil siap tampil, penjelasan rekomendasi. Tanpa dependensi Streamlit atau MySQL.             |
+| Antarmuka   | `streamlit_app.py`                                          | Formulir, hasil, penilaian bintang, tab evaluasi.                                                                        |
 
 **Keputusan desain:** jenis GPU (`gpu_class`) dan informasi layar **tidak disimpan** di database; keduanya dihitung dari kode saat data dimuat, sehingga aturan hanya ada di satu tempat dan sama antara eksperimen dan aplikasi.
 
@@ -129,39 +129,39 @@ Kandidat yang tidak memenuhi syarat wajib **tidak pernah dikembalikan**:
 
 Profil diterjemahkan menjadi **target numerik eksplisit**. Target tidak berasal dari median kandidat.
 
-| Profil | Fitur ranking | RAM rekomendasi | Storage rekomendasi | Level CPU awal | Level GPU awal | GPU dedicated |
-|---|---|---|---|---|---|---|
-| Office dan kuliah | RAM, storage, CPU | 8 GB | 512 GB | Rendah | tidak dipakai | tidak |
-| Programming dan web | RAM, storage, CPU | 16 GB | 512 GB | Sedang | tidak dipakai | tidak |
-| Desain dan video | RAM, storage, CPU, GPU | 16 GB | 512 GB | Tinggi | dedicated sedang | opsional |
-| Gaming | RAM, storage, CPU, GPU | 16 GB | 512 GB | Tinggi | dedicated sedang | wajib |
+| Profil              | Fitur ranking          | RAM rekomendasi | Storage rekomendasi | Level CPU awal | Level GPU awal   | GPU dedicated |
+| ------------------- | ---------------------- | --------------- | ------------------- | -------------- | ---------------- | ------------- |
+| Office dan kuliah   | RAM, storage, CPU      | 8 GB            | 512 GB              | Rendah         | tidak dipakai    | tidak         |
+| Programming dan web | RAM, storage, CPU      | 16 GB           | 512 GB              | Sedang         | tidak dipakai    | tidak         |
+| Desain dan video    | RAM, storage, CPU, GPU | 16 GB           | 512 GB              | Tinggi         | dedicated sedang | opsional      |
+| Gaming              | RAM, storage, CPU, GPU | 16 GB           | 512 GB              | Tinggi         | dedicated sedang | wajib         |
 
 - **Pemisahan Batas Minimum dan Target Preferensi (Perbaikan Logika):**
-  - **Batas minimum (`min_ram`, `min_storage`)** berfungsi murni sebagai *hard filter* pemotong pool kandidat.
+  - **Batas minimum (`min_ram`, `min_storage`)** berfungsi murni sebagai _hard filter_ pemotong pool kandidat.
   - **Target preferensi (`target_ram`, `target_storage`)** menjadi titik koordinat target $t$ pada ruang KNN.
   - Nilai rekomendasi profil hanya digunakan untuk menginisialisasi nilai awal formulir. Pengguna dapat mengubah target RAM atau storage secara mandiri (misalnya memilih target RAM 8 GB pada profil Programming) selama memenuhi validasi `target >= minimum`.
   - Sistem tidak lagi memaksakan `max(min_ram, profile_rec)` yang menimpa preferensi pengguna secara diam-diam. Jika target eksplisit diberikan, target tersebut yang menjadi acuan:
     $$t_{\text{RAM}} = s.\text{target\_ram} \quad \text{dan} \quad t_{\text{Storage}} = s.\text{target\_storage}$$
-    (Bila parameter target kosong, sistem menggunakan *fallback* kompatibilitas `max(s.min_ram, p["ram_rec"])`).
-  - *Catatan:* Perubahan ini merupakan perbaikan konsistensi logika pemodelan preferensi pengguna, bukan klaim peningkatan akurasi empiris. Laptop dengan target RAM 8 GB berjarak 0 pada dimensi RAM, namun peringkat akhir tetap ditentukan secara multivariat bersama fitur CPU dan lainnya.
+    (Bila parameter target kosong, sistem menggunakan _fallback_ kompatibilitas `max(s.min_ram, p["ram_rec"])`).
+  - _Catatan:_ Perubahan ini merupakan perbaikan konsistensi logika pemodelan preferensi pengguna, bukan klaim peningkatan akurasi empiris. Laptop dengan target RAM 8 GB berjarak 0 pada dimensi RAM, namun peringkat akhir tetap ditentukan secara multivariat bersama fitur CPU dan lainnya.
 - **Target CPU** = persentil skor PassMark seluruh katalog yang punya skor CPU (636 laptop), bukan pool terfilter:
 
-| Level | Persentil | Skor |
-|---|---|---|
-| Rendah | P25 | 14.823 |
-| Sedang | P50 | 18.871 |
-| Tinggi | P75 | 24.969 |
-| Sangat tinggi | P90 | 34.222 |
+| Level         | Persentil | Skor   |
+| ------------- | --------- | ------ |
+| Rendah        | P25       | 14.823 |
+| Sedang        | P50       | 18.871 |
+| Tinggi        | P75       | 24.969 |
+| Sangat tinggi | P90       | 34.222 |
 
 - **Target GPU** = persentil atas **model GPU unik** (bukan atas laptop, agar tidak ditentukan stok toko), per kelas GPU:
 
-| Level | Populasi | Persentil | Skor G3D |
-|---|---|---|---|
-| iGPU memadai | model iGPU berskor | P75 | 6.186 |
-| dedicated rendah | model dedicated | P25 | 12.352 |
-| dedicated sedang | model dedicated | P50 | 17.042 |
-| dedicated tinggi | model dedicated | P75 | 23.039 |
-| dedicated sangat tinggi | model dedicated | P90 | 26.656 |
+| Level                   | Populasi           | Persentil | Skor G3D |
+| ----------------------- | ------------------ | --------- | -------- |
+| iGPU memadai            | model iGPU berskor | P75       | 6.186    |
+| dedicated rendah        | model dedicated    | P25       | 12.352   |
+| dedicated sedang        | model dedicated    | P50       | 17.042   |
+| dedicated tinggi        | model dedicated    | P75       | 23.039   |
+| dedicated sangat tinggi | model dedicated    | P90       | 26.656   |
 
 > **Asumsi operasional.** Persentil katalog, level bawaan tiap profil, dan rekomendasi RAM atau storage adalah **asumsi** yang perlu diuji, bukan standar industri. Nilainya relatif terhadap katalog Plaza IT pada 5 Oktober 2026 dan berubah bila katalog berubah. Profil Office dan Programming memakai fitur yang sama dan hanya berbeda pada target; perbedaan itu belum divalidasi.
 
@@ -194,19 +194,19 @@ Jenis GPU (`dedicated`, `integrated`, `unknown`) berbeda dari tingkat performa (
 
 Aturan berurutan (di `classify_gpu`):
 
-| Aturan | Hasil |
-|---|---|
-| Kolom grafis kosong dan CPU Apple A/M-series | integrated (GPU menyatu pada SoC) |
-| Kolom grafis kosong, bukan Apple | unknown |
-| Nama produk menyebut RTX/GTX/Radeon RX tetapi kolom grafis tidak | unknown (konflik) |
-| Nama memuat GeForce, RTX, GTX, Radeon RX, Radeon Pro, Quadro, atau Arc seri A | dedicated |
-| Intel Arc B390 dengan CPU Core Ultra X | integrated |
-| Intel UHD, Iris Xe, "Intel Graphics", Adreno | integrated |
-| Intel Arc seri V dan T (mis. 140V) | integrated |
-| Radeon seri M (mis. 680M, 780M) dan 8060S | integrated |
-| "AMD Radeon Graphics" dengan CPU Ryzen atau Athlon | integrated (aturan pasangan) |
-| "Intel Arc Graphics" dengan CPU Core Ultra | integrated (aturan pasangan) |
-| Lainnya | unknown |
+| Aturan                                                                        | Hasil                             |
+| ----------------------------------------------------------------------------- | --------------------------------- |
+| Kolom grafis kosong dan CPU Apple A/M-series                                  | integrated (GPU menyatu pada SoC) |
+| Kolom grafis kosong, bukan Apple                                              | unknown                           |
+| Nama produk menyebut RTX/GTX/Radeon RX tetapi kolom grafis tidak              | unknown (konflik)                 |
+| Nama memuat GeForce, RTX, GTX, Radeon RX, Radeon Pro, Quadro, atau Arc seri A | dedicated                         |
+| Intel Arc B390 dengan CPU Core Ultra X                                        | integrated                        |
+| Intel UHD, Iris Xe, "Intel Graphics", Adreno                                  | integrated                        |
+| Intel Arc seri V dan T (mis. 140V)                                            | integrated                        |
+| Radeon seri M (mis. 680M, 780M) dan 8060S                                     | integrated                        |
+| "AMD Radeon Graphics" dengan CPU Ryzen atau Athlon                            | integrated (aturan pasangan)      |
+| "Intel Arc Graphics" dengan CPU Core Ultra                                    | integrated (aturan pasangan)      |
+| Lainnya                                                                       | unknown                           |
 
 **Hasil pada 648 laptop:** dedicated 168, integrated 477, unknown 3 (dua laptop non-Apple tanpa kolom grafis dan satu laptop yang nama produknya menyebut RTX tetapi kolom grafisnya Intel Arc).
 
@@ -248,16 +248,16 @@ Diukur: kepatuhan constraint, keragaman vektor fitur, jumlah kandidat per tahap,
 
 Dua skenario per profil, dengan batas yang dipilih sebagai ilustrasi (bukan rekomendasi). Skenario `programming_A` memakai budget, RAM, dan storage yang sama dengan profil uji v7.
 
-| Skenario | Budget | RAM min | Storage min | Lolos filter dasar | Lolos syarat GPU | Dapat diranking | Belum dapat diranking | Vektor unik (dapat diranking) |
-|---|---|---|---|---|---|---|---|---|
-| office_A | 10.000.000 | 8 | 256 | 105 | 105 | 105 | 0 | 40 |
-| office_B | 15.000.000 | 8 | 512 | 242 | 242 | 242 | 0 | 76 |
-| programming_A | 14.999.994 | 16 | 512 | 127 | 127 | 127 | 0 | 41 |
-| programming_B | 20.000.000 | 16 | 512 | 247 | 247 | 247 | 0 | 78 |
-| design_A | 25.000.000 | 16 | 512 | 325 | 325 | 252 | 73 | 109 |
-| design_B | 35.000.000 | 32 | 1024 | 52 | 52 | 45 | 7 | 24 |
-| gaming_A | 20.000.000 | 16 | 512 | 247 | 40 | 40 | 0 | 27 |
-| gaming_B | 30.000.000 | 16 | 1024 | 94 | 24 | 24 | 0 | 21 |
+| Skenario      | Budget     | RAM min | Storage min | Lolos filter dasar | Lolos syarat GPU | Dapat diranking | Belum dapat diranking | Vektor unik (dapat diranking) |
+| ------------- | ---------- | ------- | ----------- | ------------------ | ---------------- | --------------- | --------------------- | ----------------------------- |
+| office_A      | 10.000.000 | 8       | 256         | 105                | 105              | 105             | 0                     | 40                            |
+| office_B      | 15.000.000 | 8       | 512         | 242                | 242              | 242             | 0                     | 76                            |
+| programming_A | 14.999.994 | 16      | 512         | 127                | 127              | 127             | 0                     | 41                            |
+| programming_B | 20.000.000 | 16      | 512         | 247                | 247              | 247             | 0                     | 78                            |
+| design_A      | 25.000.000 | 16      | 512         | 325                | 325              | 252             | 73                    | 109                           |
+| design_B      | 35.000.000 | 32      | 1024        | 52                 | 52               | 45              | 7                     | 24                            |
+| gaming_A      | 20.000.000 | 16      | 512         | 247                | 40               | 40              | 0                     | 27                            |
+| gaming_B      | 30.000.000 | 16      | 1024        | 94                 | 24               | 24              | 0                     | 21                            |
 
 Catatan pembacaan: pada Gaming, kandidat terintegrasi (207 pada gaming_A, 69 pada gaming_B) keluar karena syarat dedicated, bukan karena benchmark hilang. Pada Desain, kandidat yang tidak dapat diranking (73 dan 7) adalah laptop tanpa skor GPU (Apple dan iGPU generik). Pada profil v7 (programming_A), pool yang dapat diranking naik dari 88 menjadi 127 karena GPU tidak dipakai; namun hanya 41 vektor unik, sehingga penanganan seri dan pengelompokan varian tetap dibutuhkan.
 
@@ -267,10 +267,10 @@ Catatan pembacaan: pada Gaming, kandidat terintegrasi (207 pada gaming_A, 69 pad
 - Tidak ada vektor fitur duplikat di antara rekomendasi (berbeda dari v7).
 - Kedekatan terhadap target berbeda antar skenario. Persentase kandidat yang mencapai **semua** target:
 
-| Skenario | office_A | office_B | programming_A | programming_B | design_A | design_B | gaming_A | gaming_B |
-|---|---|---|---|---|---|---|---|---|
-| Kandidat mencapai semua target | 15,2% | 54,5% | 28,3% | 40,9% | 1,6% | 6,7% | 2,5% | 41,7% |
-| Rekomendasi (dari 5) di bawah target pada minimal satu fitur | 0 | 0 | 1 | 1 | 5 | 3 | 4 | 3 |
+| Skenario                                                     | office_A | office_B | programming_A | programming_B | design_A | design_B | gaming_A | gaming_B |
+| ------------------------------------------------------------ | -------- | -------- | ------------- | ------------- | -------- | -------- | -------- | -------- |
+| Kandidat mencapai semua target                               | 15,2%    | 54,5%    | 28,3%         | 40,9%         | 1,6%     | 6,7%     | 2,5%     | 41,7%    |
+| Rekomendasi (dari 5) di bawah target pada minimal satu fitur | 0        | 0        | 1             | 1             | 5        | 3        | 4        | 3        |
 
 Pada budget yang membuat target hampir tidak tercapai (mis. design_A dan gaming_A), jarak yang besar **tidak** berarti rekomendasinya buruk; ranking menjadi "terdekat dari bawah", dan antarmuka menampilkan persen di bawah target per fitur agar hal itu terbaca.
 
@@ -278,16 +278,16 @@ Pada budget yang membuat target hampir tidak tercapai (mis. design_A dan gaming_
 
 Tumpang tindih Jaccard antara himpunan vektor top-5 baseline dan top-5 setelah satu asumsi diubah (1,00 = identik; 0,00 = tidak ada yang sama). Karena hanya lima item, nilai Jaccard berloncatan (0,00; 0,11; 0,25; 0,43; 0,67; 1,00).
 
-| Skenario | $\lambda=1$ | $\lambda=0$ | Level CPU turun | Level CPU naik | Level GPU turun | Level GPU naik |
-|---|---|---|---|---|---|---|
-| office_A | 0,43 | 0,43 | n/a | 0,25 | n/a | n/a |
-| office_B | 0,43 | 0,11 | n/a | 0,00 | n/a | n/a |
-| programming_A | 0,67 | 0,25 | 0,00 | 0,00 | n/a | n/a |
-| programming_B | 0,67 | 0,11 | 0,00 | 0,00 | n/a | n/a |
-| design_A | 1,00 | 0,00 | 0,67 | 0,00 | 0,00 | 0,43 |
-| design_B | 0,67 | 0,67 | 0,67 | 0,43 | 0,43 | 0,67 |
-| gaming_A | 0,67 | 0,67 | 0,43 | 0,25 | 0,11 | 0,67 |
-| gaming_B | 0,67 | 0,11 | 0,67 | 0,25 | 0,43 | 0,67 |
+| Skenario      | $\lambda=1$ | $\lambda=0$ | Level CPU turun | Level CPU naik | Level GPU turun | Level GPU naik |
+| ------------- | ----------- | ----------- | --------------- | -------------- | --------------- | -------------- |
+| office_A      | 0,43        | 0,43        | n/a             | 0,25           | n/a             | n/a            |
+| office_B      | 0,43        | 0,11        | n/a             | 0,00           | n/a             | n/a            |
+| programming_A | 0,67        | 0,25        | 0,00            | 0,00           | n/a             | n/a            |
+| programming_B | 0,67        | 0,11        | 0,00            | 0,00           | n/a             | n/a            |
+| design_A      | 1,00        | 0,00        | 0,67            | 0,00           | 0,00            | 0,43           |
+| design_B      | 0,67        | 0,67        | 0,67            | 0,43           | 0,43            | 0,67           |
+| gaming_A      | 0,67        | 0,67        | 0,43            | 0,25           | 0,11            | 0,67           |
+| gaming_B      | 0,67        | 0,11        | 0,67            | 0,25           | 0,43            | 0,67           |
 
 `n/a`: level tidak ada di arah itu (mis. Rendah tidak punya level lebih rendah) atau GPU tidak dipakai.
 
@@ -296,11 +296,6 @@ Tumpang tindih Jaccard antara himpunan vektor top-5 baseline dan top-5 setelah s
 **Koreksi default Gaming.** Level GPU bawaan Gaming semula dedicated tinggi (G3D 23.039), yang tidak dicapai kandidat mana pun pada budget uji (jarak 0,8 sampai 1,2 menyesatkan). Bawaan diubah ke dedicated sedang (jarak 0,20 sampai 0,40 pada gaming_A). Pilihan ini tetap asumsi.
 
 **Pengamatan lain:** pada Desain, top-5 didominasi laptop gaming karena profil hanya mengukur CPU dan GPU; pada Programming, GPU yang tidak dipakai membuat laptop RTX dapat muncul.
-
-### 6.5 Evaluasi oleh manusia (belum dilaksanakan)
-
-- **Alat evaluasi ahli** (`knn_v8_expert_eval.py`): lembar penilaian buta (penilai tidak melihat metode, peringkat, jarak, atau skor) yang mencampur empat sumber item, yaitu top-5 v8, top-5 v8 simetris ($\lambda=1$), 5 laptop termurah, dan 5 laptop acak, dinilai 1 sampai 5. Skrip menghitung rata-rata per metode, selisih dengan interval bootstrap, korelasi rank, dan kesepakatan antar-penilai (quadratic weighted kappa). Alat ini diuji dengan penilai sintetis dan **belum dipakai pada penilai nyata**.
-- **Penilaian pengguna** melalui aplikasi (bagian 5). **Belum ada data penilaian nyata yang terkumpul.**
 
 ## 7. Keterbatasan
 
@@ -346,7 +341,7 @@ Tumpang tindih Jaccard antara himpunan vektor top-5 baseline dan top-5 setelah s
 
 **Cara mengutip repositori** (lengkapi nama penulis sesuai kebutuhan):
 
-> *Sistem Rekomendasi Laptop Berbasis KNN: Penerapan K-Nearest Neighbors pada Content-Based Filtering untuk Sistem Rekomendasi Laptop Berbasis Web.* Repositori GitHub, 2026. https://github.com/glngprr/laptop-recommendation-app
+> _Sistem Rekomendasi Laptop Berbasis KNN: Penerapan K-Nearest Neighbors pada Content-Based Filtering untuk Sistem Rekomendasi Laptop Berbasis Web._ Repositori GitHub, 2026. https://github.com/glngprr/laptop-recommendation-app
 
 **Data:** katalog Plaza IT (potret 5 Oktober 2026) dan skor benchmark PassMark (CPU Mark dan G3D Mark).
 
@@ -364,15 +359,15 @@ Tumpang tindih Jaccard antara himpunan vektor top-5 baseline dan top-5 setelah s
 
 ## 12. Glosarium
 
-| Istilah | Arti |
-|---|---|
-| Content-based filtering | Merekomendasikan item berdasarkan kemiripan atribut item dengan kebutuhan atau profil, bukan berdasarkan perilaku pengguna lain |
-| KNN (K-Nearest Neighbors) | Mencari K item dengan jarak terdekat terhadap sebuah query pada ruang fitur |
-| PassMark CPU Mark / G3D Mark | Skor benchmark prosesor dan kartu grafis dari PassMark; makin tinggi makin cepat menurut benchmark tersebut |
-| iGPU / dGPU | GPU terintegrasi pada prosesor / kartu grafis terpisah dengan memori sendiri |
-| Standardisasi (z-score) | Mengubah fitur menjadi $(x-\mu)/\sigma$ agar skala tiap fitur sebanding |
-| Persentil | Nilai di bawah yang terdapat sejumlah persen data |
-| Imputasi | Mengisi nilai yang hilang dengan perkiraan; **tidak dilakukan** pada proyek ini |
-| Jaccard | Ukuran tumpang tindih dua himpunan: ukuran irisan dibagi ukuran gabungan |
-| QWK | Quadratic weighted kappa, ukuran kesepakatan antar-penilai pada skala berurutan |
-| Ground truth | Label kebenaran yang diakui; tidak tersedia pada proyek ini |
+| Istilah                      | Arti                                                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Content-based filtering      | Merekomendasikan item berdasarkan kemiripan atribut item dengan kebutuhan atau profil, bukan berdasarkan perilaku pengguna lain |
+| KNN (K-Nearest Neighbors)    | Mencari K item dengan jarak terdekat terhadap sebuah query pada ruang fitur                                                     |
+| PassMark CPU Mark / G3D Mark | Skor benchmark prosesor dan kartu grafis dari PassMark; makin tinggi makin cepat menurut benchmark tersebut                     |
+| iGPU / dGPU                  | GPU terintegrasi pada prosesor / kartu grafis terpisah dengan memori sendiri                                                    |
+| Standardisasi (z-score)      | Mengubah fitur menjadi $(x-\mu)/\sigma$ agar skala tiap fitur sebanding                                                         |
+| Persentil                    | Nilai di bawah yang terdapat sejumlah persen data                                                                               |
+| Imputasi                     | Mengisi nilai yang hilang dengan perkiraan; **tidak dilakukan** pada proyek ini                                                 |
+| Jaccard                      | Ukuran tumpang tindih dua himpunan: ukuran irisan dibagi ukuran gabungan                                                        |
+| QWK                          | Quadratic weighted kappa, ukuran kesepakatan antar-penilai pada skala berurutan                                                 |
+| Ground truth                 | Label kebenaran yang diakui; tidak tersedia pada proyek ini                                                                     |
