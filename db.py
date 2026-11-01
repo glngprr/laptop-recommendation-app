@@ -56,6 +56,7 @@ def _fetchone(conn, sql, params=()):
 def _execute(conn, sql, params=()):
     with conn.cursor() as cur:
         cur.execute(sql, params)
+        return cur.rowcount
 
 
 # ----------------------------------------------------------------------------
@@ -195,7 +196,9 @@ def upsert_rating(conn, session_id: str, laptop_id: int, rating: int) -> None:
 def save_comment(conn, session_id: str, text: str) -> None:
     text = (text or "").strip()[:2000]
     try:
-        _execute(conn, "UPDATE sessions SET comment = %s WHERE id = %s", (text or None, session_id))
+        rowcount = _execute(conn, "UPDATE sessions SET comment = %s WHERE id = %s", (text or None, session_id))
+        if rowcount == 0:
+            raise ValueError(f"Sesi '{session_id}' tidak ditemukan; komentar tidak dapat disimpan.")
         conn.commit()
     except Exception:
         conn.rollback()

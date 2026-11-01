@@ -246,8 +246,12 @@ def on_rate(session_id: str, laptop_id: int, key: str):
 
 
 def on_comment(session_id: str, key: str):
+    text = st.session_state.get(key, "").strip()
+    if not text:
+        st.toast("Komentar tidak boleh kosong.")
+        return
     try:
-        db_call(db.save_comment, session_id, st.session_state.get(key, ""))
+        db_call(db.save_comment, session_id, text)
         st.toast("Komentar tersimpan.")
     except Exception as exc:
         st.toast(f"Komentar gagal disimpan: {exc}")
