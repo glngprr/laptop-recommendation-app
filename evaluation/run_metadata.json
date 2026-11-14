@@ -1,0 +1,17 @@
+{
+  "evaluation_timestamp": "2026-11-11T06:21:43+0700",
+  "dataset_filename": "laptops_benchmark_enriched_resolved.csv",
+  "dataset_row_count": 648,
+  "valid_reference_catalog_count": 636,
+  "number_of_scenarios": 72,
+  "number_of_methods": 3,
+  "number_of_latency_repetitions": 10,
+  "number_of_warmup_runs_discarded": 2,
+  "specification_version": "2.1.0",
+  "platform_system": "Windows",
+  "platform_release": "11",
+  "python_version": "3.13.12",
+  "sklearn_version": "1.8.0",
+  "pandas_version": "3.0.3",
+  "numpy_version": "2.4.6"
+}

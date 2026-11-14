@@ -1,0 +1,161 @@
+{
+  "version": "1.0.0-provisional",
+  "status": "provisional",
+  "profile": "programming",
+  "description": "Rule-based workload intensity definitions for the Programming profile. This file maps user activity conditions into a suggested workload intensity (Light, Medium, Heavy) without directly dictating hardware specifications. Unmatched combinations are explicitly designated as unsupported.",
+  "activities": {
+    "mobile_development": {
+      "display_name": "Mobile Application Development",
+      "dimensions": {
+        "testing_environment": {
+          "description": "Environment used for testing and running the mobile application",
+          "options": {
+            "physical_device": "Physical device only (USB / Wi-Fi debugging, no local emulator)",
+            "single_emulator": "Single local Android Virtual Device (AVD) or iOS Simulator",
+            "multiple_emulators": "Multiple concurrent emulators or third-party emulators",
+            "mixed": "Mixed testing across physical devices and emulators"
+          }
+        },
+        "project_complexity": {
+          "description": "Architectural and dependency complexity of the project",
+          "options": {
+            "simple": "Simple (single-module, minimal dependencies, basic UI/CRUD)",
+            "medium": "Medium (multi-screen, REST API integration, local SQLite/Room database)",
+            "complex": "Complex (large multi-module codebase, extensive third-party SDKs, native background services)"
+          }
+        },
+        "build_frequency": {
+          "description": "Frequency of compiling and building the project",
+          "options": {
+            "occasional": "Occasional (a few builds per day/hour)",
+            "frequent": "Frequent (regular incremental compilation and testing)",
+            "intensive": "Intensive (continuous builds, local automated tests, frequent clean builds)"
+          }
+        },
+        "concurrent_tools": {
+          "description": "Software tools running concurrently during development",
+          "options": {
+            "ide_only": "IDE only (Android Studio or VS Code standalone)",
+            "ide_emulator_browser": "IDE + Emulator + Browser (standard documentation & emulator workflow)",
+            "multiple_tools": "Multiple tools (IDE + Emulator + Figma / Design tools + Local backend/Docker + multiple browser tabs)"
+          }
+        }
+      },
+      "intensity_levels": ["Light", "Medium", "Heavy"],
+      "rules": [
+        {
+          "rule_id": "MOB-HEAVY-01",
+          "priority": 100,
+          "intensity": "Heavy",
+          "description": "Menjalankan beberapa emulator secara bersamaan memicu virtualisasi paralel dan penggunaan CPU serta memori yang sangat tinggi.",
+          "conditions": {
+            "testing_environment": ["multiple_emulators"]
+          }
+        },
+        {
+          "rule_id": "MOB-HEAVY-02",
+          "priority": 90,
+          "intensity": "Heavy",
+          "description": "Proyek berskala kompleks dengan frekuensi kompilasi intensif/kontinu menuntut kapasitas komputasi tinggi.",
+          "conditions": {
+            "project_complexity": ["complex"],
+            "build_frequency": ["intensive"]
+          }
+        },
+        {
+          "rule_id": "MOB-HEAVY-03",
+          "priority": 90,
+          "intensity": "Heavy",
+          "description": "Proyek kompleks yang dijalankan bersamaan dengan banyak perkakas desain/backend/emulator (multitasking berat).",
+          "conditions": {
+            "project_complexity": ["complex"],
+            "concurrent_tools": ["multiple_tools"]
+          }
+        },
+        {
+          "rule_id": "MOB-HEAVY-04",
+          "priority": 85,
+          "intensity": "Heavy",
+          "description": "Proyek menengah dengan frekuensi build intensif dan multitasking banyak perkakas.",
+          "conditions": {
+            "project_complexity": ["medium"],
+            "build_frequency": ["intensive"],
+            "concurrent_tools": ["multiple_tools"]
+          }
+        },
+        {
+          "rule_id": "MOB-LIGHT-01",
+          "priority": 50,
+          "intensity": "Light",
+          "description": "Pengembangan proyek sederhana yang diuji murni pada perangkat fisik (tanpa emulator) dengan IDE mandiri dan frekuensi kompilasi wajar.",
+          "conditions": {
+            "testing_environment": ["physical_device"],
+            "project_complexity": ["simple"],
+            "build_frequency": ["occasional", "frequent"],
+            "concurrent_tools": ["ide_only"]
+          }
+        },
+        {
+          "rule_id": "MOB-LIGHT-02",
+          "priority": 45,
+          "intensity": "Light",
+          "description": "Proyek menengah yang diuji pada perangkat fisik dengan IDE mandiri dan frekuensi kompilasi sesekali.",
+          "conditions": {
+            "testing_environment": ["physical_device"],
+            "project_complexity": ["medium"],
+            "build_frequency": ["occasional"],
+            "concurrent_tools": ["ide_only"]
+          }
+        },
+        {
+          "rule_id": "MOB-MED-01",
+          "priority": 40,
+          "intensity": "Medium",
+          "description": "Alur kerja standar mobile development menggunakan 1 emulator lokal dengan proyek sederhana atau menengah dan perkakas standar.",
+          "conditions": {
+            "testing_environment": ["single_emulator"],
+            "project_complexity": ["simple", "medium"],
+            "build_frequency": ["occasional", "frequent"],
+            "concurrent_tools": ["ide_only", "ide_emulator_browser"]
+          }
+        },
+        {
+          "rule_id": "MOB-MED-02",
+          "priority": 35,
+          "intensity": "Medium",
+          "description": "Pengujian campuran (fisik dan emulator) dengan perkakas standar untuk proyek sederhana atau menengah.",
+          "conditions": {
+            "testing_environment": ["mixed"],
+            "project_complexity": ["simple", "medium"],
+            "build_frequency": ["occasional", "frequent"],
+            "concurrent_tools": ["ide_only", "ide_emulator_browser"]
+          }
+        },
+        {
+          "rule_id": "MOB-MED-03",
+          "priority": 35,
+          "intensity": "Medium",
+          "description": "Proyek kompleks yang diuji secara fisik tanpa emulator dengan frekuensi kompilasi wajar dan IDE mandiri.",
+          "conditions": {
+            "testing_environment": ["physical_device"],
+            "project_complexity": ["complex"],
+            "build_frequency": ["occasional", "frequent"],
+            "concurrent_tools": ["ide_only"]
+          }
+        },
+        {
+          "rule_id": "MOB-MED-04",
+          "priority": 35,
+          "intensity": "Medium",
+          "description": "Proyek kompleks dengan 1 emulator lokal, namun frekuensi kompilasi hanya sesekali dan perkakas standar.",
+          "conditions": {
+            "testing_environment": ["single_emulator"],
+            "project_complexity": ["complex"],
+            "build_frequency": ["occasional"],
+            "concurrent_tools": ["ide_only", "ide_emulator_browser"]
+          }
+        }
+      ]
+    }
+  }
+}

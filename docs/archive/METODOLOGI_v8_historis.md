@@ -72,7 +72,7 @@ Katalog laptop **Plaza IT**, 648 laptop, 21 kolom (nama produk, harga, RAM, stor
 
 ### 2.3 Koreksi terhadap data sumber
 
-**Skor CPU Apple M3 (11 Oktober 2026).** Pada 7 laptop M3, skor CPU di dataset (14.120) identik dengan skor Apple M1 (14.120), padahal PassMark mencatat M1 sebesar 14.119 dan **M3 sebesar 19.051** (1.602 sampel, per 11 Oktober 2026). Nilai M3 pada dataset diperbaiki menjadi 19.051 langsung pada CSV dan pada tabel MySQL; kolom lain tidak berubah (diverifikasi: tepat 7 sel berbeda dari berkas asli). Penyebabnya diduga skor M1 ikut terpakai pada M3 saat pemetaan (belum dikonfirmasi).
+**Skor CPU Apple M3 (11 Oktober 2026).** Pada 7 laptop M3, skor CPU di dataset (14.120) identik dengan skor Apple M1 (14.120), padahal PassMark mencatat M1 sebesar 14.119 dan **M3 sebesar 19.051** (1.602 sampel, per 11 Oktober 2026). Nilai M3 pada dataset diperbaiki menjadi 19.051 langsung pada CSV katalog (serta tabel MySQL pada fase awal); kolom lain tidak berubah (diverifikasi: tepat 7 sel berbeda dari berkas asli). Penyebabnya diduga skor M1 ikut terpakai pada M3 saat pemetaan (belum dikonfirmasi).
 
 Dampak pada v8: level CPU Rendah bergeser dari 14.643 ke 14.823 dan Sedang dari 18.724 ke 18.871 (Tinggi dan Sangat tinggi tetap); jumlah kandidat per skenario tidak berubah; peringkat teratas berubah pada tiga skenario (office_B, programming_A, programming_B). **Hasil yang dibuat sebelum koreksi memakai nilai lama.**
 
@@ -94,21 +94,22 @@ Dataset tidak memiliki kolom layar; informasi hanya tertulis dalam nama produk. 
 
 ```mermaid
 flowchart LR
-    A[Katalog CSV atau MySQL] --> B[Persiapan data]
-    B --> C[Filter wajib]
-    C --> D[Pemetaan profil ke target]
-    D --> E[Ranking KNN]
-    E --> F[Pengelompokan varian dan urutan akhir]
-    F --> G[Antarmuka Streamlit]
-    G --> H[(MySQL sesi dan penilaian)]
+    A[Katalog CSV Referensi] --> B[Persiapan Data & Preprocessor]
+    B --> C[Filter Kelayakan Wajib]
+    C --> D[Pemetaan Kebutuhan Target]
+    D --> E[Mesin Rekomendasi: Skor Berbobot]
+    E --> F[Penyusunan Hasil & Penjelasan]
+    F --> G[Antarmuka Streamlit: 3 Tab]
+        G -.-> H[(Catatan Historis: MySQL Awal)]
 ```
 
 | Lapisan     | Berkas                                                      | Tugas                                                                                                                    |
 | ----------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Data        | `dataset/*.csv`, `schema.sql`, `import_catalog.py`, `db.py` | Katalog dan penyimpanan sesi serta penilaian. Benchmark hilang disimpan `NULL`.                                          |
-| Inti metode | `knn_v8_profile_recommender.py`                             | Persiapan data, klasifikasi jenis GPU, parsing layar, filter wajib, target profil, KNN, laptop serupa, laporan evaluasi. |
-| Layanan     | `service.py`                                                | Validasi input, penyusunan hasil siap tampil, penjelasan rekomendasi. Tanpa dependensi Streamlit atau MySQL.             |
-| Antarmuka   | `streamlit_app.py`                                          | Formulir, hasil, penilaian bintang, tab evaluasi.                                                                        |
+| Data        | `dataset/laptops_benchmark_enriched_resolved.csv`           | Katalog referensi benchmark-complete ($N=636$). Beroperasi bebas database (*zero-database*).                             |
+| Inti Metode | `core/preprocessor.py`, `core/recommenders.py`, `core/evaluator.py` | Modul pra-pemrosesan, implementasi 3 metode rekomendasi, dan engine benchmark evaluasi offline (EVALUATION_SPEC v2.1.0). |
+| Layanan     | `service.py`                                                | Integrasi metode pemenang (Skor Berbobot/MAUT), validasi input, penyusunan hasil dan penjelasan rekomendasi.             |
+| Antarmuka   | `streamlit_app.py`                                          | Antarmuka web 3 tab: Evaluasi Model (landing page), Uji Rekomendasi, dan Dasar Sistem Rekomendasi.                       |
+| Historis    | `knn_v8_profile_recommender.py`, `schema.sql`, `db.py`      | Berkas prototipe awal dan skrip database yang digunakan pada fase eksplorasi sebelum migrasi ke zero-database.           |
 
 **Keputusan desain:** jenis GPU (`gpu_class`) dan informasi layar **tidak disimpan** di database; keduanya dihitung dari kode saat data dimuat, sehingga aturan hanya ada di satu tempat dan sama antara eksperimen dan aplikasi.
 
@@ -221,7 +222,9 @@ Layar adalah **tampilan dan filter opsional, bukan fitur KNN** (keputusan desain
 - Filter OLED hanya mengenali laptop yang menuliskan OLED pada nama produk.
 - Sistem **tidak** menjamin akurasi warna untuk desain; hanya resolusi dan OLED yang tertulis pada data.
 
-### 4.8 Laptop serupa (KNN antar-laptop)
+### 4.8 Laptop serupa (KNN antar-laptop) *(Catatan Historis)*
+
+> *Catatan Historis: Fitur pencarian laptop serupa ini dikembangkan pada fase prototipe v8 dan dinonaktifkan pada versi aplikasi final untuk menyederhanakan alur rekomendasi dan memfokuskan antarmuka pada model pemenang (Skor Berbobot). Penjelasan berikut dipertahankan untuk keterlacakan metodologis rancangan awal.*  
 
 Mencari laptop dengan spesifikasi terdekat dari satu laptop acuan, memakai fitur profil yang sama:
 
@@ -234,7 +237,9 @@ Mencari laptop dengan spesifikasi terdekat dari satu laptop acuan, memakai fitur
 
 Kalimat "Mengapa direkomendasikan?" dirangkai **hanya dari angka yang dipakai ranking**: posisi tiap fitur terhadap target, posisi harga terhadap kandidat lain, informasi layar, catatan GPU bila GPU tidak dipakai, dan peringkat. Penjelasan tidak membuat klaim tentang mutu laptop. Setiap angka pada kalimat diverifikasi ulang terhadap data pada pengujian.
 
-## 5. Antarmuka dan penyimpanan penilaian
+## 5. Antarmuka dan penyimpanan penilaian *(Catatan Historis)*
+
+> *Catatan Historis: Penyimpanan sesi dan penilaian bintang ke basis data MySQL merupakan bagian dari eksperimen awal. Pada arsitektur aplikasi final, sistem beroperasi secara mandiri tanpa database (zero-database), dan evaluasi metode dilakukan secara objektif melalui benchmark offline 72 skenario terkontrol pada `docs/EVALUATION_SPEC.md` v2.1.0.*  
 
 Aplikasi menyimpan, **anonim**, setiap pencarian (profil, budget, batas RAM dan storage, level, jumlah kandidat) dan setiap penilaian bintang 1 sampai 5 per rekomendasi. Tabel: `sessions`, `session_items`, `feedback` (dan `laptops` untuk katalog). Penyimpanan hanya terjadi bila MySQL aktif dan pengguna mencentang persetujuan. Filter layar dan pencarian "mirip" tidak dicatat. Tab **Evaluasi pengguna** menampilkan jumlah sesi dan penilaian, rata-rata rating per profil dan **per peringkat**, serta ekspor CSV. Jika rating peringkat 1 rata-rata lebih tinggi daripada peringkat 5, urutan ranking sejalan dengan penilaian pengguna; bila datar, ranking belum membedakan laptop yang cocok dari yang kurang cocok.
 
@@ -316,7 +321,7 @@ Tumpang tindih Jaccard antara himpunan vektor top-5 baseline dan top-5 setelah s
 - Penilaian dan kriteria pencarian disimpan **anonim**: tidak ada nama, email, atau alamat IP. Penyimpanan memerlukan persetujuan pengguna melalui kotak centang pada formulir.
 - Kolom komentar bebas bersifat opsional; pengguna diminta tidak menuliskan data pribadi.
 - Tab **Evaluasi pengguna** menampilkan ringkasan dan ekspor tanpa autentikasi. Jika aplikasi dipublikasikan, akses tab itu perlu dibatasi.
-- Kredensial database disimpan di `.streamlit/secrets.toml` yang tidak ikut Git.
+- *(Catatan Historis)* Pada fase penggunaan database, kredensial disimpan di `.streamlit/secrets.toml`. Pada versi final bebas database, tidak ada kredensial eksternal yang dibutuhkan.
 
 ## 9. Pengembangan lanjutan
 
@@ -325,11 +330,11 @@ Tumpang tindih Jaccard antara himpunan vektor top-5 baseline dan top-5 setelah s
 - Melaksanakan evaluasi ahli dan mengumpulkan penilaian pengguna, termasuk uji A/B tersembunyi terhadap pembanding sederhana.
 - Menguji level persentil bawaan dan nilai $\lambda$ dengan penilaian manusia.
 - Menjadikan layar sebagai fitur ranking bila ada data kualitas layar yang andal (resolusi, gamut) dan target yang dapat dipertanggungjawabkan.
-- Mencatat filter layar dan pencarian "mirip" untuk analisis; penerapan di server yang dapat dijangkau responden.
+- *(Catatan Historis)* Pada instrumen evaluasi awal: mencatat filter layar dan pencarian "mirip" untuk analisis.
 
 ## 10. Reproduksibilitas
 
-- **Lingkungan:** aplikasi dijalankan pada Windows dengan Python 3.13 dan MySQL; logika inti juga diuji pada Linux dengan Python 3.12. Versi paket minimum ada di `requirements.txt` (`streamlit>=1.40`, `pymysql>=1.1`, `cryptography>=42`, `pandas>=2.0`, `numpy>=1.24`, `scikit-learn>=1.3`).
+- **Lingkungan:** aplikasi dijalankan pada Python 3.12/3.13 (Windows/Linux) dengan arsitektur bebas database (*zero-database*). Versi paket minimum ada di `requirements.txt` (`streamlit>=1.40`, `pandas>=2.0`, `numpy>=1.24`, `scikit-learn>=1.3`), tanpa dependensi database (seperti PyMySQL).
 - **Deterministik:** perhitungan rekomendasi tidak memakai bilangan acak, dan aturan seri tetap (bagian 4.3). Satu-satunya pengacakan ada pada alat evaluasi ahli, dengan benih tetap 2026.
 - **Langkah:**
   1. Siapkan lingkungan seperti pada README.

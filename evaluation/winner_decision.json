@@ -1,0 +1,20 @@
+{
+  "winner": "weighted_scoring",
+  "decision_sequence": [
+    {
+      "stage": 1,
+      "criterion": "Mean NDCG@5 within 0.01 of max",
+      "scores": {
+        "knn_euclidean": 0.7734324803759018,
+        "cosine_similarity": 0.6987737335186548,
+        "weighted_scoring": 0.9785854121537229
+      },
+      "max_score": 0.9785854121537229,
+      "retained_candidates": [
+        "weighted_scoring"
+      ]
+    }
+  ],
+  "final_stage_reached": 1,
+  "rationale": "Metode 'weighted_scoring' memenangkan seleksi mutlak pada Tahap 1 dengan Mean NDCG@5 tertinggi (0.9786)."
+}
