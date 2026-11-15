@@ -298,7 +298,7 @@ def render_result(stored: dict):
                     st.caption("Penjelasan ini dihitung berdasarkan kesesuaian spesifikasi RAM (bobot 45%), performa prosesor (bobot 35%), dan kapasitas penyimpanan (bobot 20%).")
 
                 # 6. Skor Kesesuaian
-                st.caption(f"Skor Kesesuaian: {r['score']:.4f} (rentang 0.0 s/d 1.0; nilai lebih tinggi menunjukkan kesesuaian lebih baik terhadap target)")
+                st.caption(f"Skor Kesesuaian: {r['score']:.4f} menunjukkan tingkat kecocokan spesifikasi laptop terhadap kebutuhan yang dimasukkan (rentang 0.0 s/d 1.0). Skor yang lebih tinggi menandakan kecocokan yang lebih baik.")
 
                 # 7. Tombol tautan ke toko
                 if r["url"]:
@@ -307,7 +307,7 @@ def render_result(stored: dict):
     with st.expander("Cara membaca hasil dan urutan rekomendasi"):
         st.markdown(
             "- **Penyaringan Laptop**: Laptop dengan harga di atas anggaran, RAM di bawah 16 GB, atau kapasitas penyimpanan di bawah 256 GB otomatis dieliminasi dari daftar pencarian.\n"
-            "- **Metode Rekomendasi**: Sistem menggunakan metode **Skor Berbobot (Weighted Scoring)** sebagai algoritma aktif terpilih dari hasil evaluasi komparatif offline 72 skenario.\n"
+            "- **Metode Rekomendasi**: Sistem menggunakan metode **Weighted Scoring** sebagai algoritma aktif terpilih dari hasil evaluasi komparatif offline 72 skenario.\n"
             "- **Bobot Atribut**: RAM (45%), performa prosesor (35%), dan kapasitas penyimpanan (20%).\n"
             "- **Penilaian Kesesuaian**: Laptop yang memenuhi atau melampaui target spesifikasi menerima nilai kesesuaian tinggi (hingga 1.0), sedangkan laptop di bawah target menerima pengurangan nilai secara proporsional.\n"
             "- **Urutan Rekomendasi**: Laptop diurutkan dari skor kesesuaian tertinggi ke terendah. Jika skor sama (seri dalam batas toleransi $10^{-7}$), laptop dengan harga lebih terjangkau diprioritaskan."
@@ -318,7 +318,7 @@ def render_model_evaluation_tab():
     st.subheader("Evaluasi Model: Hasil Uji Komparatif")
     st.caption(
         "Menampilkan hasil penelitian perbandingan tiga metode rekomendasi "
-        "(KNN Euclidean, Cosine Similarity, dan Skor Berbobot) pada 72 skenario pengujian terkontrol."
+        "(KNN Euclidean, Cosine Similarity, dan Weighted Scoring) pada 72 skenario pengujian terkontrol."
     )
 
     summary_df, winner_data, metadata, bm_df = load_evaluation_artifacts()
@@ -330,7 +330,7 @@ def render_model_evaluation_tab():
     # =========================================================================
     # A. Hasil Perbandingan
     # =========================================================================
-    st.markdown("### A. Hasil Perbandingan")
+    st.markdown("### Hasil Perbandingan")
 
     # 1. Winning Model Banner
     winner_name = winner_data.get("winner", "weighted_scoring")
@@ -367,7 +367,7 @@ def render_model_evaluation_tab():
     name_map = {
         "knn_euclidean": "KNN Euclidean",
         "cosine_similarity": "Cosine Similarity",
-        "weighted_scoring": "Skor Berbobot (Weighted Scoring) [Pemenang]",
+        "weighted_scoring": "Weighted Scoring [Pemenang]",
     }
     short_name_map = {
         "knn_euclidean": "KNN Euclidean",
@@ -420,7 +420,7 @@ def render_model_evaluation_tab():
             "Skor NDCG@5": chart_base["ndcg_5_mean"]
         })
         st.bar_chart(df_ndcg, x="Metode", y="Skor NDCG@5", color="Metode")
-        st.caption("Mengukur seberapa tepat laptop yang paling sesuai diletakkan di urutan teratas (skala 0.0 s/d 1.0; nilai lebih tinggi lebih baik).")
+        st.caption("Menilai apakah laptop yang paling sesuai dengan kebutuhan pengguna sudah ditempatkan pada urutan teratas. Semakin tinggi nilainya, semakin baik susunan rekomendasi yang dihasilkan (skala 0.0 s/d 1.0).")
 
     with g1_c2:
         st.markdown("**Chart 2: Ketepatan 5 Rekomendasi (Precision@5)**")
@@ -429,7 +429,7 @@ def render_model_evaluation_tab():
             "Ketepatan Rekomendasi": chart_base["precision_5_mean"]
         })
         st.bar_chart(df_prec, x="Metode", y="Ketepatan Rekomendasi", color="Metode")
-        st.caption("Persentase laptop dari 5 rekomendasi teratas yang benar-benar memenuhi kriteria relevansi (nilai lebih tinggi lebih baik).")
+        st.caption("Menghitung berapa banyak dari lima laptop yang direkomendasikan memenuhi kriteria relevansi penelitian. Semakin banyak laptop yang sesuai, semakin tinggi nilai Precision@5.")
 
     with g1_c3:
         st.markdown("**Chart 3: Cakupan Laptop yang Sesuai (Recall@5)**")
@@ -438,32 +438,32 @@ def render_model_evaluation_tab():
             "Cakupan Sesuai": chart_base["recall_5_mean"]
         })
         st.bar_chart(df_rec, x="Metode", y="Cakupan Sesuai", color="Metode")
-        st.caption("Proporsi laptop relevan yang berhasil ditemukan dan masuk ke 5 besar rekomendasi (dievaluasi pada 56 skenario valid).")
+        st.caption("Menunjukkan seberapa banyak pilihan laptop yang sebenarnya relevan berhasil ditemukan oleh metode. Semakin banyak laptop relevan yang masuk ke lima posisi teratas, semakin tinggi nilai Recall@5.")
 
     # Kelompok 2: Cakupan Rekomendasi (Coverage)
-    st.markdown("##### 2. Cakupan Rekomendasi")
+    st.markdown("##### 2. Cakupan Rekomendasi (Coverage)")
     g2_c1, g2_c2 = st.columns(2)
 
     with g2_c1:
-        st.markdown("**Chart 4: Cakupan Seluruh Katalog**")
+        st.markdown("**Chart 4: Cakupan Seluruh Katalog (Catalog-Wide Coverage)**")
         df_cat = pd.DataFrame({
             "Metode": chart_base["Metode"],
             "Cakupan Katalog": chart_base["catalog_coverage"]
         })
         st.bar_chart(df_cat, x="Metode", y="Cakupan Katalog", color="Metode")
-        st.caption("Persentase variasi laptop di seluruh katalog (636 laptop) yang pernah direkomendasikan. Menggambarkan keberagaman pilihan, bukan akurasi.")
+        st.caption("Menunjukkan seberapa luas metode menggunakan pilihan laptop yang tersedia dalam katalog. Semakin banyak laptop berbeda yang pernah direkomendasikan, semakin tinggi nilai cakupannya.")
 
     with g2_c2:
-        st.markdown("**Chart 5: Cakupan Kumpulan Laptop yang Memenuhi Syarat**")
+        st.markdown("**Chart 5: Cakupan Kumpulan Laptop yang Memenuhi Syarat (Eligible Pool Coverage)**")
         df_pool = pd.DataFrame({
             "Metode": chart_base["Metode"],
             "Cakupan Kumpulan": chart_base["eligible_pool_coverage"]
         })
         st.bar_chart(df_pool, x="Metode", y="Cakupan Kumpulan", color="Metode")
-        st.caption("Persentase laptop yang pernah direkomendasikan dari seluruh laptop yang lolos syarat batas anggaran dan kelayakan (428 laptop).")
+        st.caption("Menggambarkan seberapa banyak pilihan yang tersedia setelah proses filter berhasil digunakan oleh metode rekomendasi. Metrik ini membantu melihat apakah metode hanya berulang kali memilih laptop tertentu atau memberikan pilihan yang lebih beragam.")
 
     # Kelompok 3: Waktu Pemrosesan (Latensi)
-    st.markdown("##### 3. Kecepatan dan Stabilitas Pemrosesan")
+    st.markdown("##### 3. Kecepatan dan Stabilitas Pemrosesan (Latency)")
     g3_c1, g3_c2 = st.columns(2)
 
     with g3_c1:
@@ -473,7 +473,7 @@ def render_model_evaluation_tab():
             "Waktu Pemrosesan (ms)": chart_base["latency_aggregate_median_ms"]
         })
         st.bar_chart(df_lat_med, x="Metode", y="Waktu Pemrosesan (ms)", color="Metode")
-        st.caption("Waktu pemrosesan umum untuk menghasilkan satu rekomendasi dalam milidetik (ms). Nilai lebih rendah lebih cepat dan efisien.")
+        st.caption("Menunjukkan seberapa cepat metode menghasilkan lima rekomendasi untuk satu skenario pengujian. Nilai ditampilkan dalam milidetik (ms), dengan nilai lebih rendah menunjukkan waktu pemrosesan yang lebih singkat.")
 
     with g3_c2:
         st.markdown("**Chart 7: Variasi Waktu Pemrosesan (Latency IQR)**")
@@ -482,14 +482,14 @@ def render_model_evaluation_tab():
             "Variasi Waktu (ms)": chart_base["latency_aggregate_iqr_ms"]
         })
         st.bar_chart(df_lat_iqr, x="Metode", y="Variasi Waktu (ms)", color="Metode")
-        st.caption("Rentang variasi waktu komputasi dalam milidetik (ms). Nilai lebih rendah menunjukkan kecepatan sistem yang lebih stabil dan konsisten.")
+        st.caption("Mengukur seberapa besar perubahan waktu pemrosesan dalam beberapa kali pengujian. Nilai yang lebih kecil menunjukkan bahwa waktu pemrosesan metode cenderung lebih konsisten.")
 
     st.markdown("---")
 
     # =========================================================================
     # B. Bagaimana Pengujian Dilakukan?
     # =========================================================================
-    st.markdown("### B. Bagaimana Pengujian Dilakukan?")
+    st.markdown("### Bagaimana Pengujian Dilakukan?")
     with st.container(border=True):
         st.markdown(
             "Pengujian performa sistem rekomendasi dilakukan secara objektif melalui tahapan berikut:\n\n"
@@ -497,7 +497,7 @@ def render_model_evaluation_tab():
             "2. **72 Skenario Pengujian Terkontrol**: Disusun 72 skenario pengujian terstruktur yang mengombinasikan berbagai variasi anggaran, target RAM, target kapasitas penyimpanan, dan target performa prosesor.\n"
             "3. **Kombinasi Kebutuhan Pengguna**: Skenario tersebut mencakup berbagai profil kebutuhan pengembangan aplikasi, mulai dari kebutuhan perkuliahan dasar hingga workstation tingkat lanjut.\n"
             "4. **Penetapan Tingkat Relevansi (Relevance Grade)**: Setiap laptop kandidat dinilai kesesuaiannya dan diberi label relevansi bergradasi dari 0 hingga 3 (0 = Tidak Relevan, 1 = Cukup Relevan, 2 = Relevan, 3 = Sangat Relevan) berdasarkan kriteria penelitian yang telah ditentukan sebelumnya.\n"
-            "5. **Kondisi Pengujian yang Identik**: Ketiga metode rekomendasi (KNN Euclidean, Cosine Similarity, dan Skor Berbobot) menerima skenario pengujian dan kumpulan kandidat laptop yang sama persis untuk memastikan perbandingan yang adil (*apple-to-apple*).\n"
+            "5. **Kondisi Pengujian yang Identik**: Ketiga metode rekomendasi (KNN Euclidean, Cosine Similarity, dan Weighted Scoring) menerima skenario pengujian dan kumpulan kandidat laptop yang sama persis untuk memastikan perbandingan yang adil (*apple-to-apple*).\n"
             "6. **Perbandingan Urutan Rekomendasi**: Daftar urutan rekomendasi dari ketiga metode diuji dan dibandingkan menggunakan metrik evaluasi baku (NDCG@5, Precision@5, Recall@5, Coverage, dan Waktu Pemrosesan).\n"
             "7. **Pemilihan Metode Terbaik**: Metode pemenang dipilih menggunakan prosedur keputusan bertingkat (*hierarchical decision procedure*) formal yang telah ditentukan sebelum pengujian dimulai.\n\n"
             "**Catatan Penting Penelitian:**\n"
@@ -510,7 +510,7 @@ def render_model_evaluation_tab():
     # =========================================================================
     # C. Apa Arti Hasil Pengujian?
     # =========================================================================
-    st.markdown("### C. Apa Arti Hasil Pengujian?")
+    st.markdown("### Apa Arti Hasil Pengujian?")
     with st.container(border=True):
         st.markdown(
             "Setiap metrik evaluasi memiliki makna spesifik dalam menilai keandalan sistem rekomendasi:\n\n"
@@ -532,7 +532,7 @@ def render_model_evaluation_tab():
     # =========================================================================
     # D. Keterbatasan Pengujian
     # =========================================================================
-    st.markdown("### D. Keterbatasan Pengujian")
+    st.markdown("### Keterbatasan Pengujian")
     with st.container(border=True):
         st.markdown(
             "Hasil evaluasi ini perlu dipahami dengan memperhatikan beberapa batasan penelitian:\n\n"
@@ -623,7 +623,7 @@ def render_basis_tab():
     with st.container(border=True):
         st.markdown(
             "#### D. Memberikan Skor Kesesuaian\n"
-            "Setiap laptop yang lolos penyaringan kelayakan dinilai kesesuaiannya terhadap target pengguna menggunakan metode **Skor Berbobot**.\n\n"
+            "Setiap laptop yang lolos penyaringan kelayakan dinilai kesesuaiannya terhadap target pengguna menggunakan metode **Weighted Scoring**.\n\n"
             "Tiga atribut laptop dinilai berdasarkan tingkat kepentingannya:\n"
             "- **RAM**: Bobot **45%** ($0.45$) — komponen paling berpengaruh terhadap kelancaran emulator dan multitasking.\n"
             "- **Performa Prosesor**: Bobot **35%** ($0.35$) — penentu kecepatan kompilasi kode dan kelancaran eksekusi aplikasi.\n"
@@ -647,18 +647,18 @@ def render_basis_tab():
             "3. Sistem menyajikan **5 laptop terbaik (Top-5)** kepada pengguna."
         )
 
-    # F. Mengapa Menggunakan Metode Skor Berbobot?
+    # F. Mengapa Menggunakan Metode Weighted Scoring?
     with st.container(border=True):
         st.markdown(
-            "#### F. Mengapa Menggunakan Metode Skor Berbobot?\n"
+            "#### F. Mengapa Menggunakan Metode Weighted Scoring?\n"
             "Tiga metode rekomendasi berbasis konten telah dibandingkan dalam pengujian offline pada 72 skenario terkontrol:\n\n"
             "- **KNN Euclidean**: Rata-rata Kualitas Urutan (NDCG@5) = 0.7734\n"
             "- **Cosine Similarity**: Rata-rata Kualitas Urutan (NDCG@5) = 0.6988\n"
-            "- **Skor Berbobot (Weighted Scoring)**: Rata-rata Kualitas Urutan (NDCG@5) = **0.9786**\n\n"
-            "**Keunggulan Metode Skor Berbobot:**\n"
+            "- **Weighted Scoring**: Rata-rata Kualitas Urutan (NDCG@5) = **0.9786**\n\n"
+            "**Keunggulan Metode Weighted Scoring:**\n"
             "Pada pencarian laptop, pengguna menetapkan spesifikasi sebagai batas kebutuhan yang diinginkan. "
             "Laptop yang memiliki spesifikasi lebih tinggi dari target adalah sebuah keuntungan fungsional. "
-            "Metode Skor Berbobot menghargai kelebihan spesifikasi ini sebagai bonus kesesuaian.\n\n"
+            "Metode Weighted Scoring menghargai kelebihan spesifikasi ini sebagai bonus kesesuaian.\n\n"
             "Pada konfigurasi penelitian ini, metode KNN Euclidean mengukur kedekatan spesifikasi terhadap target. "
             "Akibatnya, laptop dengan spesifikasi yang jauh melampaui target dapat memperoleh posisi lebih rendah dibandingkan laptop yang spesifikasinya lebih dekat dengan target, "
             "meskipun spesifikasi yang lebih tinggi sebenarnya dapat memberikan kapasitas tambahan bagi pengguna.\n\n"
@@ -676,17 +676,17 @@ init_state()
 
 with st.sidebar:
     st.markdown("### Status Sistem")
-    st.write("**Arsitektur**: Bebas Database (*Zero-Database*)")
-    st.write("**Metode Rekomendasi Aktif**: Skor Berbobot (Weighted Scoring)")
+    st.write("**Arsitektur**:  Zero-Database")
+    st.write("**Metode Rekomendasi**: Weighted Scoring")
     st.write("**Sumber Data**: Katalog CSV")
     st.write(f"**Ukuran Katalog**: {len(DF)} laptop terverifikasi")
     if st.button("Muat ulang katalog"):
         st.cache_resource.clear()
         st.rerun()
 
-st.title("Perbandingan Metode Sistem Rekomendasi Laptop untuk Android Developer")
+st.title("Perbandingan Metode K-Nearest Neighbors, Cosine Similarity, dan Weighted Scoring")
 st.caption(
-    "Aplikasi perbandingan tiga metode rekomendasi laptop untuk kebutuhan Android Developer."
+    "Prototipe untuk evaluasi dan menguji metode rekomendasi laptop berdasarkan kebutuhan Android Developer."
 )
 
 tab_model_eval, tab_rec, tab_basis = st.tabs([
@@ -705,7 +705,7 @@ with tab_model_eval:
 # Tab 2: Uji Rekomendasi
 # ----------------------------------------------------------------------------
 with tab_rec:
-    st.subheader("1. Pilih Preset Kebutuhan (Opsional)")
+    st.subheader("1. Pilih Preset Kebutuhan")
 
     current_prof = st.session_state.get("profile", "programming")
     if current_prof not in S.PROFILE_ORDER:
@@ -742,7 +742,7 @@ with tab_rec:
     cpu_opts = dict(S.cpu_options(REF))
 
     st.subheader("2. Tentukan Anggaran dan Target Spesifikasi")
-    st.caption("Sistem secara otomatis menerapkan syarat kelayakan dasar pengembangan Android: RAM minimum 16 GB, penyimpanan SSD minimum 256 GB, dan harga tidak melebihi anggaran.")
+    st.caption("Sistem secara otomatis menyaring laptop berdasarkan persyaratan minimum, yaitu RAM minimal 16 GB, SSD minimal 256 GB, dan harga di bawah atau sama dengan anggaran yang ditentukan.")
 
     with st.form("query_form"):
         # Baris 1: Budget & Target Performa Prosesor
@@ -852,4 +852,4 @@ with tab_rec:
 with tab_basis:
     render_basis_tab()
 
-st.caption("Prototipe penelitian perbandingan sistem rekomendasi laptop Android. Beroperasi secara mandiri tanpa basis data.")
+st.caption("Prototipe evaluasi perbandingan metode rekomendasi laptop menggunakan KNN, Cosine Similarity, dan Weighted Scoring.")
