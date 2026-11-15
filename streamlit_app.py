@@ -317,8 +317,7 @@ def render_result(stored: dict):
 def render_model_evaluation_tab():
     st.subheader("Evaluasi Model: Hasil Uji Komparatif")
     st.caption(
-        "Menampilkan hasil penelitian perbandingan tiga metode rekomendasi "
-        "(KNN Euclidean, Cosine Similarity, dan Weighted Scoring) pada 72 skenario pengujian terkontrol."
+        "Evaluasi kinerja tiga metode rekomendasi laptop menggunakan 72 skenario pengujian."
     )
 
     summary_df, winner_data, metadata, bm_df = load_evaluation_artifacts()
@@ -345,8 +344,8 @@ def render_model_evaluation_tab():
         f"pada Tahap 1, yaitu kriteria utama dalam prosedur pemilihan metode, "
         f"dengan memperoleh nilai NDCG@5 tertinggi dibandingkan KNN Euclidean "
         f"dan Cosine Similarity. Nilainya mencapai 0,9786, "
-        f"lebih tinggi 0,2052 dibandingkan KNN "
-        f"Euclidean yang berada di posisi kedua.\n\n"
+        f"lebih tinggi 0,2052 dibandingkan KNN Euclidean yang berada di posisi kedua, "
+        f"jauh di atas toleransi 0,01.\n\n"
         f"Dengan hasil tersebut, Weighted Scoring ditetapkan sebagai metode "
         f"dengan kualitas urutan rekomendasi terbaik dalam pengujian ini."
     )
@@ -549,7 +548,7 @@ def render_model_evaluation_tab():
 
 
 def render_basis_tab():
-    st.subheader("Dasar Sistem Rekomendasi")
+    st.subheader("Sistem Rekomendasi")
     st.caption("Penjelasan alur kerja, logika penentuan spesifikasi, dan formulasi metode rekomendasi.")
 
     # A. Memahami Kebutuhan Pengguna
@@ -692,7 +691,7 @@ st.caption(
 tab_model_eval, tab_rec, tab_basis = st.tabs([
     "Evaluasi Model",
     "Uji Rekomendasi",
-    "Dasar Sistem Rekomendasi",
+    "Lainnya",
 ])
 
 # ----------------------------------------------------------------------------
@@ -847,7 +846,7 @@ with tab_rec:
         render_result(st.session_state["result"])
 
 # ----------------------------------------------------------------------------
-# Tab 3: Dasar Sistem Rekomendasi
+# Tab 3: Lainnya
 # ----------------------------------------------------------------------------
 with tab_basis:
     render_basis_tab()
